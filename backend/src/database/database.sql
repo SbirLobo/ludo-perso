@@ -43,7 +43,7 @@ CREATE TABLE `created_by` (
 CREATE TABLE `owned_by` (
     `user_id` int NOT NULL,
     `boardgame_id` int NOT NULL,
-    `favorite` bool NULL,
+    `favorite` bool DEFAULT 0 NOT NULL,
     CONSTRAINT `fk_user_boardgame` FOREIGN KEY(`user_id`) REFERENCES `user` (`id`),
     CONSTRAINT `fk_boardgame_user` FOREIGN KEY(`boardgame_id`) REFERENCES `boardgame` (`id`)
 );
@@ -103,6 +103,7 @@ INSERT INTO `edited_by`
 (boardgame_id,editor_id)
 VALUES
 (1,1),
+(6,1),
 (2,2),
 (3,3),
 (3,4),
@@ -114,6 +115,7 @@ INSERT INTO `created_by`
 (boardgame_id,creator_id)
 VALUES
 (1,9),
+(2,9),
 (2,8),
 (2,7),
 (3,6),
