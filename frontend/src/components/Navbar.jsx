@@ -18,7 +18,11 @@ function Navbar() {
   return (
     <>
       <header className="bg-dark h-24 w-full fixed z-30 flex items-center justify-between">
-        <Link to="/" className="flex items-center" onClick={handleClickLink}>
+        <Link
+          to="/collection"
+          className="flex items-center"
+          onClick={handleClickLink}
+        >
           <img
             src="/assets/logo/logo.png"
             className="pl-6 h-16 w-23"
