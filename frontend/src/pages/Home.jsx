@@ -65,14 +65,14 @@ export default function Home() {
         <button type="submit" className="blueButton self-center mt-2">
           Go !
         </button>
-        <hr className="border-[1.5px] mt-8 border-pink w-1/2 text-center"></hr>
+        <hr className="border-[1.5px] mt-8 border-pink w-1/2 max-w-72 text-center"></hr>
       </form>
       <div className="flex flex-col items-center ">
         <p className="py-8">C&apos;est ta première fois ?</p>
         <button type="button" className="pinkButton text-xs">
           PAR ICI
         </button>
-        <hr className="border-[1.5px] my-8 border-pink w-1/2 text-center"></hr>
+        <hr className="border-[1.5px] my-8 border-pink w-1/2 max-72 text-center"></hr>
       </div>
     </>
   );
