@@ -30,18 +30,24 @@ function Navbar() {
           />
           <span className="text-white text-2xl font-bold ml-4">Ludo-perso</span>
         </Link>
-        <label className="burger text-white absolute z-10 top-[30%] right-5 lg:hidden">
-          <input
-            type="checkbox"
-            onChange={handleClick}
-            checked={active === "active"}
+        <button
+          onClick={handleClick}
+          type="button"
+          className="burger text-white absolute z-10 top-[30%] right-5 sm:hidden"
+        >
+          <img
+            src={
+              active === "active"
+                ? "/assets/logo/menu0.png"
+                : "/assets/logo/menu1.png"
+            }
+            alt="menu"
           />
-          Burger
-        </label>
-        <nav className="hidden lg:flex z-20 items-center gap-10 mr-14 h-20">
+        </button>
+        <nav className="hidden sm:flex z-20 items-center gap-10 mr-14 h-20">
           <Link
             to="/collection"
-            className={`text-white w-[128px] text-center ${
+            className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
               !isActive("/collection") ? "hover:underline" : ""
             } ${isActive("/collection") ? "active-nav" : ""}`}
           >
@@ -49,7 +55,7 @@ function Navbar() {
           </Link>
           <Link
             to="/univers"
-            className={`text-white w-[72px] text-center ${
+            className={`text-white rounded-md py-2 px-1 w-[82px] text-center ${
               !isActive("/univers") ? "hover:underline" : ""
             } ${isActive("/univers") ? "active-nav" : ""}`}
           >
@@ -57,7 +63,7 @@ function Navbar() {
           </Link>
           <Link
             to="/profil"
-            className={`text-white w-[54px] text-center ${
+            className={`text-white rounded-md py-2 px-1 w-[64px] text-center ${
               !isActive("/profil") ? "hover:underline" : ""
             } ${isActive("/profil") ? "active-nav" : ""}`}
           >
@@ -65,6 +71,37 @@ function Navbar() {
           </Link>
         </nav>
       </header>
+      <nav
+        className={`sm:hidden bg-dark w-[150px] flex flex-col z-20 py-10 absolute right-0 top-[96px] rounded-bl-md menu translate-y-[-110%] ${active} bg-primary items-center gap-10`}
+      >
+        <Link
+          to="/collection"
+          onClick={handleClickLink}
+          className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
+            !isActive("/collection") ? "hover:underline" : ""
+          } ${isActive("/collection") ? "active-nav" : ""}`}
+        >
+          Ma collection
+        </Link>
+        <Link
+          to="/univers"
+          onClick={handleClickLink}
+          className={`text-white rounded-md py-2 px-1 w-[82px] text-center ${
+            !isActive("/univers") ? "hover:underline" : ""
+          } ${isActive("/univers") ? "active-nav" : ""}`}
+        >
+          Univers
+        </Link>
+        <Link
+          to="/profil"
+          onClick={handleClickLink}
+          className={`text-white rounded-md py-2 px-1 w-[64px] text-center ${
+            !isActive("/profil") ? "hover:underline" : ""
+          } ${isActive("/profil") ? "active-nav" : ""}`}
+        >
+          Profil
+        </Link>
+      </nav>
     </>
   );
 }
