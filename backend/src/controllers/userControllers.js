@@ -1,5 +1,22 @@
 const userModels = require("../models/userModels");
 
+const postUser = (req, res) => {
+  const user = req.body;
+  userModels
+    .createUser(user)
+    .then(() => {
+      res.status(201).json({ message: "Votre compte a bien été créé" });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Oups, le serveur est en panne");
+    });
+};
+
+const logout = (req, res) => {
+  res.clearCookie("appjwt").status(200).json({ message: "User logged out" });
+};
+
 const getAllUser = async (req, res) => {
   try {
     const [users] = await userModels.findAll();
@@ -78,6 +95,8 @@ const deleteOneUser = async (req, res, next) => {
 };
 
 module.exports = {
+  postUser,
+  logout,
   getAllUser,
   getOneUser,
   putOneUser,
