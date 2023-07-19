@@ -5,13 +5,34 @@ const LudoContext = createContext();
 
 export function LudoProvider({ children }) {
   const [allBoardgames, setAllBoardgames] = useState([]);
+  const [user, setUser] = useState({
+    userName: "",
+    email: "",
+    password: "",
+  });
+  const [loggedInUser, setLoggedInUser] = useState({
+    id: "",
+    userName: "",
+    email: "",
+  });
 
   const propsPassing = useMemo(
     () => ({
       allBoardgames,
       setAllBoardgames,
+      user,
+      setUser,
+      loggedInUser,
+      setLoggedInUser,
     }),
-    [allBoardgames, setAllBoardgames]
+    [
+      allBoardgames,
+      setAllBoardgames,
+      user,
+      setUser,
+      loggedInUser,
+      setLoggedInUser,
+    ]
   );
 
   return (
