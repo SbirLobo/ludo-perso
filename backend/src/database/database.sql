@@ -7,7 +7,7 @@ CREATE TABLE `user` (
     `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `userName` varchar(50) NOT NULL,
     `email` varchar(255) NOT NULL,
-    `admin` bool NOT NULL,
+    `admin` bool DEFAULT 0 NOT NULL,
     `hashedPassword` varchar(255) NOT NULL
 );
 
@@ -58,12 +58,12 @@ CREATE TABLE `edited_by` (
 INSERT INTO `user` 
 (userName,email,admin,hashedPassword)
 VALUES 
-('admin','admin@admin.fr',1,'hashedPassword'),
-('user','user@user.fr',0,'hashedPassword'),
-('sbir','sbir@email.fr',0,'hashedPassword'),
-('dam','dam@email.fr',0,'hashedPassword'),
-('omar','omar@email.fr',0,'hashedPassword'),
-('bozo','bozo@email.fr',0,'hashedPassword');
+('admin','admin@email.fr',1,'$argon2id$v=19$m=65536,t=5,p=1$PuZ8xyq2Eyi2SYGGhX2Q/w$7r16HskpeMT3++xbrSdiFe9cT24kZJ5wLhqCxIyFGmc'),
+('user','user@email.fr',0,'$argon2id$v=19$m=65536,t=5,p=1$sSw3X61wri2MWZAwa+j3gg$AY54QRXVpdSrFxK/QD8+RFwGNICcmejC2hHN6LYqcAE'),
+('sbir','sbir@email.fr',0,'$argon2id$v=19$m=65536,t=5,p=1$7vzrboh6HMn6jdvVo2ygTw$udnqwzUr9Tc5h6KtdufJE3gV8KUGLPEbOA0ZqGUpr4w'),
+('dam','dam@email.fr',0,'$argon2id$v=19$m=65536,t=5,p=1$KiQrizUHesJKHDeGNAFbLg$L6m1KNHQau50c/2h+tzVDMS3qEcxvX9yr4KtEGXsnaQ'),
+('omar','omar@email.fr',0,'$argon2id$v=19$m=65536,t=5,p=1$ZZ/Gke3aoNG2V9EsYkBYhw$yPCOQdrpt9jkfxeUi1P+1tK1bsqBP1TiKdWFPaOTfFY'),
+('bozo','bozo@email.fr',0,'$argon2id$v=19$m=65536,t=5,p=1$pnZZv8ULAzQrKdRmiRSftw$YE1fnUL4I6UY7yq8VWcu8fB1NGSOVHL4mp8oSypV1Tg');
 
 INSERT INTO `boardgame`
 (title,nbPlayer,playingTime,standalone,year,language,boxImg)

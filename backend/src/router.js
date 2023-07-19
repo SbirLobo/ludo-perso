@@ -7,6 +7,11 @@ const editorControllers = require("./controllers/editorControllers");
 const creatorControllers = require("./controllers/creatorControllers");
 const editedByControllers = require("./controllers/editedByControllers");
 const createdByControllers = require("./controllers/createdByControllers");
+const {
+  hashPassword,
+  verifyPassword,
+} = require("./controllers/authControllers");
+
 const ownedByMiddlewares = require("./middlewares/ownedByMiddlewares");
 const editedByMiddlewares = require("./middlewares/editedByMiddlewares");
 const createdByMiddlewares = require("./middlewares/createdByMiddlewares");
@@ -14,10 +19,19 @@ const {
   foreignKeyOFF,
   foreignKeyON,
 } = require("./middlewares/ForeignKeyMiddleware");
+const { newUser, recognizeUser } = require("./middlewares/userMiddlewares");
 
 router.get("/", (req, res) => {
   res.send("Welcome Home");
 });
+
+// *
+// Routes login et logout
+// *
+
+router.post("/login", recognizeUser, verifyPassword);
+router.get("/logout", userControllers.logout);
+router.post("/inscription", newUser, hashPassword, userControllers.postUser);
 
 // *
 // Routes de la table user
