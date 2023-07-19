@@ -15,4 +15,21 @@
 }
 
 @layer utilities {
+  .blueButton {
+    background-color: theme("colors.blue");
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: 4mm ridge theme("colors.yellow");
+    color: theme("colors.white");
+  }
+
+  .pinkButton {
+    background-color: theme("colors.yellow");
+    padding: 1rem 1rem;
+    border-radius: 100%;
+    border: solid theme("colors.blue");
+    color: theme("colors.dark");
+    height: 5rem;
+    width: 5rem;
+  }
 }
