@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user, setUser, loggedInUser, setLoggedInUser } = useLudo();
+  const { user, setUser, setLoggedInUser } = useLudo();
   const APILOGIN = `${import.meta.env.VITE_BACKEND_URL}/login`;
   // const APILOGOUT = `${import.meta.env.VITE_BACKEND_URL}/logout`;
 
@@ -19,7 +19,7 @@ export default function Home() {
       .then((res) => {
         setLoggedInUser({
           id: res.data.user.id,
-          userName: res.data.user.firstname,
+          userName: res.data.user.userName,
           email: res.data.user.email,
         });
         navigate("/collection");
@@ -27,8 +27,6 @@ export default function Home() {
       .catch((err) => console.error(err.response.data.message));
   };
 
-  console.log(user);
-  console.log(loggedInUser);
   return (
     <>
       <h1 className="text-center pt-8 text-3xl">

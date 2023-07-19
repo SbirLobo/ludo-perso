@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Collection from "./pages/Collection";
 import Layout from "./components/Layout";
 import Page404 from "./pages/Page404";
 
@@ -10,6 +11,7 @@ function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/collection" element={<Collection />} />
 
         <Route path="/*" element={<Page404 />} />
       </Routes>
