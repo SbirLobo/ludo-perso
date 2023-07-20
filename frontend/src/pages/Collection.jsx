@@ -67,8 +67,6 @@ export default function Collection() {
     setFilteredCollection(nextFilteredCollection);
   }, [collection, nbPlayerFilter, favoriteFilter]);
 
-  console.log(filteredCollection);
-
   return (
     <>
       <h2 className="text-2xl py-8">Ma collection</h2>
