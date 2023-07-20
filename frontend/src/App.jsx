@@ -5,6 +5,7 @@ import Univers from "./pages/Univers";
 import Layout from "./components/Layout";
 import AddingBoardgame from "./pages/AddingBoardgame";
 import Page404 from "./pages/Page404";
+import Profil from "./pages/Profil";
 
 import "./App.css";
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/collection" element={<Collection />} />
         <Route path="/univers" element={<Univers />} />
         <Route path="/addingBoardgame" element={<AddingBoardgame />} />
+        <Route path="/profil" element={<Profil />} />
 
         <Route path="/*" element={<Page404 />} />
       </Routes>
