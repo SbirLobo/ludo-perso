@@ -1,10 +1,16 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import axios from "axios";
 import PropTypes from "prop-types";
 
 const LudoContext = createContext();
 
 export function LudoProvider({ children }) {
   const [allBoardgames, setAllBoardgames] = useState([]);
+  const [idOwnedBoardgameList, setIdOwnedBoardgameList] = useState([]);
+  const [collection, setCollection] = useState([]);
+  const [favoriteFilter, setFavoriteFilter] = useState(false);
+  const [check, setCheck] = useState(false);
+  const [filteredCollection, setFilteredCollection] = useState([]);
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -16,6 +22,21 @@ export function LudoProvider({ children }) {
     email: "",
   });
 
+  useEffect(() => {
+    const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
+      loggedInUser.id
+    }`;
+    axios
+      .get(API)
+      .then((res) => {
+        setCollection(res.data);
+        setFilteredCollection(res.data);
+        const data = res.data.map((e) => e.boardgame_id);
+        setIdOwnedBoardgameList(data);
+      })
+      .catch((err) => console.error(err.response.data.message));
+  }, [check]);
+
   const propsPassing = useMemo(
     () => ({
       allBoardgames,
@@ -24,6 +45,16 @@ export function LudoProvider({ children }) {
       setUser,
       loggedInUser,
       setLoggedInUser,
+      idOwnedBoardgameList,
+      setIdOwnedBoardgameList,
+      check,
+      setCheck,
+      collection,
+      setCollection,
+      favoriteFilter,
+      setFavoriteFilter,
+      filteredCollection,
+      setFilteredCollection,
     }),
     [
       allBoardgames,
@@ -32,6 +63,16 @@ export function LudoProvider({ children }) {
       setUser,
       loggedInUser,
       setLoggedInUser,
+      idOwnedBoardgameList,
+      setIdOwnedBoardgameList,
+      check,
+      setCheck,
+      collection,
+      setCollection,
+      favoriteFilter,
+      setFavoriteFilter,
+      filteredCollection,
+      setFilteredCollection,
     ]
   );
 

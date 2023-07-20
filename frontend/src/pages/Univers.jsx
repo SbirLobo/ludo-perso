@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useLudo } from "../context/LudoContext";
 import UniversCard from "../components/UniversCard";
 
 export default function Univers() {
+  const { loggedInUser, check, setCheck } = useLudo();
   const [univers, setUnivers] = useState([]);
   const [nbPlayerFilterUnivers, setNbPlayerFilterUnivers] = useState(0);
   const [filteredUnivers, setFilteredUnivers] = useState([]);
 
-  const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
-
   useEffect(() => {
+    const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
+
     axios
       .get(API)
       .then((res) => {
@@ -17,10 +19,22 @@ export default function Univers() {
         setFilteredUnivers(res.data);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, [API]);
+  }, []);
 
   const handleChangeNbPlayerFilter = (e) => {
     setNbPlayerFilterUnivers(Number(e.target.value));
+  };
+
+  const handleClickAddBoardgame = async (id) => {
+    const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
+      loggedInUser.id
+    }/${id}`;
+    await axios
+      .post(API)
+      .then(() => {
+        setCheck(!check);
+      })
+      .catch((err) => console.error(err.response.data));
   };
 
   useEffect(() => {
@@ -44,7 +58,14 @@ export default function Univers() {
 
   return (
     <>
-      <h2 className="text-2xl py-8">Ma collection</h2>
+      <div className="flex flex-start items-center">
+        <h2 className="text-2xl py-8 pr-4">Univers</h2>
+        <img
+          className="w-10"
+          src="/assets/logo/addCollection.png"
+          alt="logo owned boardgame"
+        />
+      </div>
       <div className="flex justify-between">
         <div className="flex py-8 gap-3 items-center">
           <p>Joueuse(s)</p>
@@ -101,12 +122,13 @@ export default function Univers() {
             boxImg={bg.boxImg}
             year={bg.year}
             id={bg.id}
+            handleClickAddBoardgame={handleClickAddBoardgame}
           />
         ))}
         {!filteredUnivers[0] && (
           <>
-            <p>Le jeu que tu cherches n'existe pas.</p>
-            <p>Soit tu peux le renseigner, soit tu DOIS l'inventer !</p>
+            <p>Le jeu que tu cherches n&apos;existe pas.</p>
+            <p>Soit tu peux le renseigner, soit tu DOIS l&apos;inventer !</p>
           </>
         )}
       </div>
