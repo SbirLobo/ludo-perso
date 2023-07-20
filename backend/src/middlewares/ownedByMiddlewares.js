@@ -5,7 +5,6 @@ const checkIfOwned = (req, res, next) => {
   ownedByModels
     .findOneUserBoardame(iduser, idboardgame)
     .then((bg) => {
-      console.log(bg[0].length);
       if (bg[0].length > 0) {
         res.json("Ce boardgame est déjà dans la collection.");
       } else {
@@ -26,7 +25,7 @@ const deleteOwnedBoardgameByAnyUser = async (req, res, next) => {
       next();
     } else {
       res.status(404).json({
-        message: `Désolé, il y a eu un problème lors de la suppression de ce boardgame`,
+        message: `Désolé, il y a eu un problème lors de la suppression de ce boardgame sur l'étape 'owned by'`,
       });
     }
   } catch (err) {

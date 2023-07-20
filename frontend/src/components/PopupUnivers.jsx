@@ -45,7 +45,6 @@ export default function PopupUnivers({
     await setHidden(!hidden);
     await setCheck2(!check2);
     await setIdBoardgameUnivers(0);
-    console.log(hidden);
   }
 
   return (

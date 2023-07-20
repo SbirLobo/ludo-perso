@@ -8,10 +8,10 @@ function Page404() {
         <h3 className="text-secondary text-center text-base md:text-xl">
           LA PAGE QUE TU RECHERCHES N&apos;EXISTE PAS.
         </h3>
-        <Link to="/" className="h-1/2 max-h-[50vh]">
+        <Link to="/" className="h-1/3">
           <img
             src="./public/assets/logo/meeple404.png"
-            className="object-cover object-center"
+            className="object-cover object-center h-[30%]"
             alt="404"
           />
         </Link>

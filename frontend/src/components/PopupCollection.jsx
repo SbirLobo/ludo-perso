@@ -7,6 +7,7 @@ export default function PopupCollection({
   hidden,
   setHidden,
   idBoardgame,
+  setIdBoardgame,
   currentBoardgame,
   setCurrentBoardgame,
 }) {
@@ -45,6 +46,7 @@ export default function PopupCollection({
       .catch((err) => console.error(err.response.data.message));
     await setCheck(!check);
     await setHidden(!hidden);
+    await setIdBoardgame(0);
   }
 
   return (
@@ -122,4 +124,5 @@ PopupCollection.propTypes = {
   idBoardgame: PropTypes.number,
   currentBoardgame: PropTypes.object,
   setCurrentBoardgame: PropTypes.func,
+  setIdBoardgame: PropTypes.func,
 };

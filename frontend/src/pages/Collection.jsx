@@ -266,6 +266,7 @@ export default function Collection() {
         hidden={hidden}
         setHidden={setHidden}
         idBoardgame={idBoardgame}
+        setIdBoardgame={setIdBoardgame}
         currentBoardgame={currentBoardgame}
         setCurrentBoardgame={setCurrentBoardgame}
       />
