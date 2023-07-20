@@ -12,6 +12,7 @@ export default function Univers() {
   const [search, setSearch] = useState("");
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
   const [idBoardgameUnivers, setIdBoardgameUnivers] = useState(0);
+  const [check2, setCheck2] = useState(false);
   const [currentBoardgame, setCurrentBoardgame] = useState({
     id: 0,
     title: "",
@@ -34,7 +35,6 @@ export default function Univers() {
 
   useEffect(() => {
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
-
     axios
       .get(API)
       .then((res) => {
@@ -42,7 +42,7 @@ export default function Univers() {
         setFilteredUnivers(res.data);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, []);
+  }, [check2]);
 
   const handleChangeNbPlayerFilter = (e) => {
     setNbPlayerFilterUnivers(Number(e.target.value));
@@ -199,9 +199,12 @@ export default function Univers() {
         hidden={hidden}
         setHidden={setHidden}
         idBoardgameUnivers={idBoardgameUnivers}
+        setIdBoardgameUnivers={setIdBoardgameUnivers}
         currentBoardgame={currentBoardgame}
         setCurrentBoardgame={setCurrentBoardgame}
         univers={univers}
+        check2={check2}
+        setCheck2={setCheck2}
       />
     </>
   );

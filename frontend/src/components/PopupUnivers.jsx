@@ -1,14 +1,17 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useLudo } from "../context/LudoContext";
+import axios from "axios";
 
 export default function PopupUnivers({
   hidden,
   setHidden,
   idBoardgameUnivers,
+  setIdBoardgameUnivers,
   currentBoardgame,
   setCurrentBoardgame,
   univers,
+  check2,
+  setCheck2,
 }) {
   useEffect(() => {
     if (Number(idBoardgameUnivers) !== 0) {
@@ -18,7 +21,7 @@ export default function PopupUnivers({
       setCurrentBoardgame(newCurrentBoardgame);
     }
     ////axios editor et creator à faire ici
-  }, [idBoardgameUnivers]);
+  }, [idBoardgameUnivers, setCurrentBoardgame, univers]);
 
   function handleKeyDown(e) {
     if (e.keyCode === 27) {
@@ -32,6 +35,17 @@ export default function PopupUnivers({
   }
   function handleClickCross() {
     setHidden(!hidden);
+  }
+
+  async function handleClickBin(id) {
+    const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames/${id}`;
+    await axios
+      .delete(API)
+      .catch((err) => console.error(err.response.data.message));
+    await setHidden(!hidden);
+    await setCheck2(!check2);
+    await setIdBoardgameUnivers(0);
+    console.log(hidden);
   }
 
   return (
@@ -85,6 +99,18 @@ export default function PopupUnivers({
               </div>
             </div>
           </div>
+          <div className="flex flex-row-reverse">
+            <button
+              type="button"
+              onClick={() => handleClickBin(currentBoardgame.id)}
+            >
+              <img
+                className="w-14"
+                src="/assets/logo/bin.png"
+                alt="logo cross"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -95,7 +121,10 @@ PopupUnivers.propTypes = {
   hidden: PropTypes.bool.isRequired,
   setHidden: PropTypes.func.isRequired,
   idBoardgameUnivers: PropTypes.number,
+  setIdBoardgameUnivers: PropTypes.func,
   currentBoardgame: PropTypes.object,
   setCurrentBoardgame: PropTypes.func,
   univers: PropTypes.array,
+  check2: PropTypes.bool,
+  setCheck2: PropTypes.func,
 };

@@ -56,7 +56,13 @@ export default function Collection() {
         setIdOwnedBoardgameList(data);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, [check]);
+  }, [
+    check,
+    loggedInUser.id,
+    setFilteredCollection,
+    setIdOwnedBoardgameList,
+    setCollection,
+  ]);
 
   const handleClickFavorite = async (user_id, boardgame_id, favorite) => {
     const API = `${
@@ -120,7 +126,14 @@ export default function Collection() {
       );
     }
     setFilteredCollection(nextFilteredCollection);
-  }, [collection, nbPlayerFilter, favoriteFilter, search, boardgameNameFilter]);
+  }, [
+    collection,
+    nbPlayerFilter,
+    favoriteFilter,
+    search,
+    boardgameNameFilter,
+    setFilteredCollection,
+  ]);
 
   return (
     <>

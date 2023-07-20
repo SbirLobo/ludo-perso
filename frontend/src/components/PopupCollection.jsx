@@ -20,7 +20,7 @@ export default function PopupCollection({
       setCurrentBoardgame(newCurrentBoardgame);
     }
     ////axios editor et creator à faire ici
-  }, [idBoardgame]);
+  }, [idBoardgame, collection, setCurrentBoardgame]);
 
   function handleKeyDown(e) {
     if (e.keyCode === 27) {
