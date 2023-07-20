@@ -73,7 +73,7 @@ VALUES
 ('Mage Knight Ultimate Edition','1-5','90-180',1,2019,'français','https://www.myludo.fr/img/jeux/1685216903/300/bu/46344.png'),
 ('Clash of cultures Monumental Edition','2-4','180',1,2021,'français','https://www.myludo.fr/img/jeux/1681845942/300/bw/48673.png'),
 ('Champ d''honneur','2-4','30-60',1,2019,'français','https://www.myludo.fr/img/jeux/1689670078/300/bi/34427.png'),
-('Combat! Volume 1','1','120-240',1,2022,'english','https://www.myludo.fr/img/jeux/1669999835/300/bn/39436.png');
+('Combat! Volume 1','1-1','120-240',1,2022,'english','https://www.myludo.fr/img/jeux/1669999835/300/bn/39436.png');
 
 INSERT INTO `editor`
 (name)
