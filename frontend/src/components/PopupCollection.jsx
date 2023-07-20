@@ -1,17 +1,26 @@
 import PropTypes from "prop-types";
 import { useLudo } from "../context/LudoContext";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
-export default function PopupCollection({ hidden, setHidden, idBoardgame }) {
-  const { collection } = useLudo();
-  const [currentBoardgame, setCurrentBoardgame] = useState({});
+export default function PopupCollection({
+  hidden,
+  setHidden,
+  idBoardgame,
+  currentBoardgame,
+  setCurrentBoardgame,
+}) {
+  const { collection, loggedInUser, check, setCheck } = useLudo();
 
   useEffect(() => {
-    const [newCurrentBoardgame] = collection.filter(
-      (e) => e.boardgame_id === Number(idBoardgame)
-    );
-    setCurrentBoardgame(newCurrentBoardgame);
-  }, []);
+    if (Number(idBoardgame) !== 0) {
+      const [newCurrentBoardgame] = collection.filter(
+        (e) => e.boardgame_id === Number(idBoardgame)
+      );
+      setCurrentBoardgame(newCurrentBoardgame);
+    }
+    ////axios editor et creator à faire ici
+  }, [idBoardgame]);
 
   function handleKeyDown(e) {
     if (e.keyCode === 27) {
@@ -26,8 +35,18 @@ export default function PopupCollection({ hidden, setHidden, idBoardgame }) {
   function handleClickCross() {
     setHidden(!hidden);
   }
-  console.log(currentBoardgame);
-  console.log(idBoardgame);
+
+  async function handleClickBin(id) {
+    const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
+      loggedInUser.id
+    }/${id}`;
+    await axios
+      .delete(API)
+      .catch((err) => console.error(err.response.data.message));
+    await setCheck(!check);
+    await setHidden(!hidden);
+  }
+
   return (
     <div className={`${!hidden ? "hidden" : ""} flex`}>
       <div
@@ -79,6 +98,18 @@ export default function PopupCollection({ hidden, setHidden, idBoardgame }) {
               </div>
             </div>
           </div>
+          <div className="flex flex-row-reverse">
+            <button
+              type="button"
+              onClick={() => handleClickBin(currentBoardgame.boardgame_id)}
+            >
+              <img
+                className="w-14"
+                src="/assets/logo/bin.png"
+                alt="logo cross"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -89,4 +120,6 @@ PopupCollection.propTypes = {
   hidden: PropTypes.bool.isRequired,
   setHidden: PropTypes.func.isRequired,
   idBoardgame: PropTypes.number,
+  currentBoardgame: PropTypes.object,
+  setCurrentBoardgame: PropTypes.func,
 };

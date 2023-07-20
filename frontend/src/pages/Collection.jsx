@@ -23,6 +23,18 @@ export default function Collection() {
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [idBoardgame, setIdBoardgame] = useState(0);
+  const [currentBoardgame, setCurrentBoardgame] = useState({
+    user_id: 0,
+    boardgame_id: 0,
+    favorite: 0,
+    title: "",
+    nbPlayer: "",
+    playingTime: "",
+    standalone: 0,
+    year: 0,
+    language: "",
+    boxImg: "",
+  });
 
   const handleClickCollection = (boardgame_id) => {
     setHidden(!hidden);
@@ -241,6 +253,8 @@ export default function Collection() {
         hidden={hidden}
         setHidden={setHidden}
         idBoardgame={idBoardgame}
+        currentBoardgame={currentBoardgame}
+        setCurrentBoardgame={setCurrentBoardgame}
       />
     </>
   );
