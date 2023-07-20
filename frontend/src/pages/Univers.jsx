@@ -8,6 +8,10 @@ export default function Univers() {
   const [univers, setUnivers] = useState([]);
   const [nbPlayerFilterUnivers, setNbPlayerFilterUnivers] = useState(0);
   const [filteredUnivers, setFilteredUnivers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
+
+  const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
   useEffect(() => {
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
@@ -23,6 +27,22 @@ export default function Univers() {
 
   const handleChangeNbPlayerFilter = (e) => {
     setNbPlayerFilterUnivers(Number(e.target.value));
+  };
+
+  const handleSubmitSearch = (event) => event.preventDefault();
+
+  const handleClickSearch = () => {
+    setSearch("");
+    setBoardgameNameFilter(false);
+  };
+
+  const handleChangeSearch = (event) => {
+    setSearch(event.target.value);
+    if (event.target.value === "") {
+      setBoardgameNameFilter(false);
+    } else {
+      setBoardgameNameFilter(true);
+    }
   };
 
   const handleClickAddBoardgame = async (id) => {
@@ -52,9 +72,14 @@ export default function Univers() {
     } else {
       nextFilteredCollection = univers.map((e) => e);
     }
-
+    if (boardgameNameFilter) {
+      const words = search.toLowerCase();
+      nextFilteredCollection = nextFilteredCollection.filter((e) =>
+        e.title.toLowerCase().includes(words)
+      );
+    }
     setFilteredUnivers(nextFilteredCollection);
-  }, [univers, nbPlayerFilterUnivers]);
+  }, [univers, nbPlayerFilterUnivers, search, boardgameNameFilter]);
 
   return (
     <>
@@ -110,8 +135,26 @@ export default function Univers() {
             </option>
           </select>
         </div>
-        <div className="flex py-8 gap-3 items-center">
-          <p>Recherche</p>
+        <div className="flex flex-row items-center">
+          <p>🔎</p>
+          <form className="p-1" onSubmit={handleSubmitSearch}>
+            <input
+              className="text-primary pl-1 border-2 border-blue rounded-md w-40"
+              type="search"
+              placeholder="rechercher"
+              value={search}
+              onChange={handleChangeSearch}
+            />
+          </form>
+          {isFirefox && (
+            <button
+              className="flex justify-center w-8 h-8 text-xl font-bold items-center bg-yellow rounded-full text-dark"
+              type="button"
+              onClick={handleClickSearch}
+            >
+              <span className="lexique-button-content">&times;</span>
+            </button>
+          )}
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-4 pb-8">

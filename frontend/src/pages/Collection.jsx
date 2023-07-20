@@ -17,6 +17,10 @@ export default function Collection() {
     setFilteredCollection,
   } = useLudo();
   const [nbPlayerFilter, setNbPlayerFilter] = useState(0);
+  const [search, setSearch] = useState("");
+  const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
+
+  const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
   useEffect(() => {
     const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
@@ -53,6 +57,22 @@ export default function Collection() {
     setFavoriteFilter(!favoriteFilter);
   };
 
+  const handleSubmitSearch = (event) => event.preventDefault();
+
+  const handleClickSearch = () => {
+    setSearch("");
+    setBoardgameNameFilter(false);
+  };
+
+  const handleChangeSearch = (event) => {
+    setSearch(event.target.value);
+    if (event.target.value === "") {
+      setBoardgameNameFilter(false);
+    } else {
+      setBoardgameNameFilter(true);
+    }
+  };
+
   useEffect(() => {
     let nextFilteredCollection = [];
     if (nbPlayerFilter !== 0) {
@@ -72,8 +92,14 @@ export default function Collection() {
         }
       });
     }
+    if (boardgameNameFilter) {
+      const words = search.toLowerCase();
+      nextFilteredCollection = nextFilteredCollection.filter((e) =>
+        e.title.toLowerCase().includes(words)
+      );
+    }
     setFilteredCollection(nextFilteredCollection);
-  }, [collection, nbPlayerFilter, favoriteFilter]);
+  }, [collection, nbPlayerFilter, favoriteFilter, search, boardgameNameFilter]);
 
   return (
     <>
@@ -142,6 +168,27 @@ export default function Collection() {
               alt="logo favori"
             />
           </button>
+        </div>
+        <div className="flex flex-row items-center">
+          <p>🔎</p>
+          <form className="p-1" onSubmit={handleSubmitSearch}>
+            <input
+              className="text-primary pl-1 border-2 border-blue rounded-md w-40"
+              type="search"
+              placeholder="rechercher"
+              value={search}
+              onChange={handleChangeSearch}
+            />
+          </form>
+          {isFirefox && (
+            <button
+              className="flex justify-center w-8 h-8 text-xl font-bold items-center bg-yellow rounded-full text-dark"
+              type="button"
+              onClick={handleClickSearch}
+            >
+              <span className="lexique-button-content">&times;</span>
+            </button>
+          )}
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-4 pb-8">
