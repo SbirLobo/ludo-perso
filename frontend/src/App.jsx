@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Collection from "./pages/Collection";
 import Univers from "./pages/Univers";
 import Layout from "./components/Layout";
+import AddingBoardgame from "./pages/AddingBoardgame";
 import Page404 from "./pages/Page404";
 
 import "./App.css";
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/univers" element={<Univers />} />
+        <Route path="/addingBoardgame" element={<AddingBoardgame />} />
 
         <Route path="/*" element={<Page404 />} />
       </Routes>

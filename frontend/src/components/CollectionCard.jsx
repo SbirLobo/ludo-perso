@@ -8,6 +8,7 @@ function CollectionCard({
   favorite,
   boardgame_id,
   user_id,
+  handleClickCollection,
 }) {
   return (
     <>
@@ -26,7 +27,10 @@ function CollectionCard({
               alt="logo favori"
             />
           </button>
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => handleClickCollection(boardgame_id)}
+          >
             <img src="/assets/logo/eye.png" alt="logo eye" />
           </button>
         </div>
@@ -54,4 +58,5 @@ CollectionCard.propTypes = {
   boardgame_id: PropTypes.number,
   user_id: PropTypes.number,
   handleClickFavorite: PropTypes.func,
+  handleClickCollection: PropTypes.func,
 };

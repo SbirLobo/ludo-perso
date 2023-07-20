@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLudo } from "../context/LudoContext";
 import UniversCard from "../components/UniversCard";
+import PopupUnivers from "../components/PopupUnivers";
+import { Link } from "react-router-dom";
 
 export default function Univers() {
   const { loggedInUser, check, setCheck } = useLudo();
@@ -10,12 +12,30 @@ export default function Univers() {
   const [filteredUnivers, setFilteredUnivers] = useState([]);
   const [search, setSearch] = useState("");
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
+  const [idBoardgameUnivers, setIdBoardgameUnivers] = useState(0);
+  const [check2, setCheck2] = useState(false);
+  const [currentBoardgame, setCurrentBoardgame] = useState({
+    id: 0,
+    title: "",
+    nbPlayer: "",
+    playingTime: "",
+    standalone: 0,
+    year: 0,
+    language: "",
+    boxImg: "",
+  });
+
+  const [hidden, setHidden] = useState(false);
+
+  function handleClickUnivers(id) {
+    setHidden(!hidden);
+    setIdBoardgameUnivers(id);
+  }
 
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
   useEffect(() => {
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
-
     axios
       .get(API)
       .then((res) => {
@@ -23,7 +43,7 @@ export default function Univers() {
         setFilteredUnivers(res.data);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, []);
+  }, [check2]);
 
   const handleChangeNbPlayerFilter = (e) => {
     setNbPlayerFilterUnivers(Number(e.target.value));
@@ -91,7 +111,7 @@ export default function Univers() {
           alt="logo owned boardgame"
         />
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between max-md:flex-wrap">
         <div className="flex py-8 gap-3 items-center">
           <p>Joueuse(s)</p>
           <select
@@ -135,6 +155,14 @@ export default function Univers() {
             </option>
           </select>
         </div>
+        <Link to="/addingBoardgame">
+          <button
+            className="rounded-md h-1/2 px-2 py-1 border-2 text-center border-dark bg-blue text-white"
+            type="button"
+          >
+            + Ajouter un jeu +
+          </button>
+        </Link>
         <div className="flex flex-row items-center">
           <p>🔎</p>
           <form className="p-1" onSubmit={handleSubmitSearch}>
@@ -166,6 +194,7 @@ export default function Univers() {
             year={bg.year}
             id={bg.id}
             handleClickAddBoardgame={handleClickAddBoardgame}
+            handleClickUnivers={handleClickUnivers}
           />
         ))}
         {!filteredUnivers[0] && (
@@ -175,6 +204,17 @@ export default function Univers() {
           </>
         )}
       </div>
+      <PopupUnivers
+        hidden={hidden}
+        setHidden={setHidden}
+        idBoardgameUnivers={idBoardgameUnivers}
+        setIdBoardgameUnivers={setIdBoardgameUnivers}
+        currentBoardgame={currentBoardgame}
+        setCurrentBoardgame={setCurrentBoardgame}
+        univers={univers}
+        check2={check2}
+        setCheck2={setCheck2}
+      />
     </>
   );
 }

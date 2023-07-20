@@ -78,9 +78,9 @@ router.put("/boardgames/:id", boardgameControllers.putBoardgame);
 router.delete(
   "/boardgames/:id",
   foreignKeyOFF,
-  ownedByMiddlewares.deleteOwnedBoardgameByAnyUser,
-  editedByMiddlewares.deleteEditedBoardgame,
-  createdByMiddlewares.deleteCreatedBoardgame,
+  // ownedByMiddlewares.deleteOwnedBoardgameByAnyUser,
+  // editedByMiddlewares.deleteEditedBoardgame,
+  // createdByMiddlewares.deleteCreatedBoardgame,
   boardgameControllers.deleteBoardgame,
   foreignKeyON
 );

@@ -7,7 +7,7 @@ const deleteOwnedByUser = (id) => {
 
 const findAllUserBoardgames = (id) => {
   const SQL =
-    "SELECT o.user_id, o.boardgame_id, o.favorite, b.title, b.nbPlayer, b.playingTime, b.standalone, b.year, b.language, b.boxImg FROM owned_by AS o INNER JOIN boardgame AS b ON b.id = o.boardgame_id WHERE o.user_id = ?;";
+    "SELECT o.user_id, o.boardgame_id, o.favorite, b.title, b.nbPlayer, b.playingTime, b.standalone, b.year, b.language, b.boxImg FROM owned_by AS o INNER JOIN boardgame AS b ON b.id = o.boardgame_id WHERE o.user_id = ?";
   return db.query(SQL, [id]);
 };
 
