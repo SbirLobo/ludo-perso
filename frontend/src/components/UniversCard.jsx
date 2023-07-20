@@ -1,13 +1,21 @@
 import PropTypes from "prop-types";
+import { useLudo } from "../context/LudoContext";
 
-function UniversCard({ title, boxImg, year, id }) {
-  console.log(id);
+function UniversCard({ title, boxImg, year, id, handleClickAddBoardgame }) {
+  const { idOwnedBoardgameList } = useLudo();
   return (
     <>
-      <div className="border-blue border-2 rounded-lg w-48 flex flex-col justify-between">
+      <div className="border-blue border-2 rounded-lg min-h-[284px] w-48 flex flex-col justify-between">
         <div className="m-1 absolute w-8">
-          <button type="button">
-            <img src="/assets/logo/addCollection.png" alt="logo favori" />
+          <button onClick={() => handleClickAddBoardgame(id)} type="button">
+            <img
+              src={
+                idOwnedBoardgameList.includes(id)
+                  ? "/assets/logo/inCollection.png"
+                  : "/assets/logo/addCollection.png"
+              }
+              alt="owned bloardgame logo"
+            />
           </button>
           <button type="button">
             <img src="/assets/logo/eye.png" alt="logo eye" />
@@ -30,4 +38,5 @@ UniversCard.propTypes = {
   title: PropTypes.string,
   year: PropTypes.number,
   id: PropTypes.number,
+  handleClickAddBoardgame: PropTypes.func,
 };

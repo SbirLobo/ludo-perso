@@ -4,26 +4,34 @@ import { useEffect, useState } from "react";
 import CollectionCard from "../components/CollectionCard";
 
 export default function Collection() {
-  const { loggedInUser } = useLudo();
-  const [collection, setCollection] = useState([]);
-  const [check, setCheck] = useState(false);
+  const {
+    loggedInUser,
+    setIdOwnedBoardgameList,
+    check,
+    setCheck,
+    collection,
+    setCollection,
+    favoriteFilter,
+    setFavoriteFilter,
+    filteredCollection,
+    setFilteredCollection,
+  } = useLudo();
   const [nbPlayerFilter, setNbPlayerFilter] = useState(0);
-  const [favoriteFilter, setFavoriteFilter] = useState(false);
-  const [filteredCollection, setFilteredCollection] = useState([]);
-
-  const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
-    loggedInUser.id
-  }`;
 
   useEffect(() => {
+    const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
+      loggedInUser.id
+    }`;
     axios
       .get(API)
       .then((res) => {
         setCollection(res.data);
         setFilteredCollection(res.data);
+        const data = res.data.map((e) => e.boardgame_id);
+        setIdOwnedBoardgameList(data);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, [API, check]);
+  }, [check]);
 
   const handleClickFavorite = async (user_id, boardgame_id, favorite) => {
     const API = `${
@@ -69,8 +77,15 @@ export default function Collection() {
 
   return (
     <>
-      <h2 className="text-2xl py-8">Ma collection</h2>
-      <div className="flex justify-between">
+      <div className="flex flex-start items-center">
+        <h2 className="text-2xl py-8 pr-4">Ma collection</h2>
+        <img
+          className="w-10"
+          src="/assets/logo/inCollection.png"
+          alt="logo owned boardgame"
+        />
+      </div>
+      <div className="flex justify-between max-md:flex-wrap">
         <div className="flex py-8 gap-3 items-center">
           <p>Joueuse(s)</p>
           <select
@@ -146,7 +161,7 @@ export default function Collection() {
         ))}
         {!filteredCollection[0] && (
           <>
-            <p>Nous n'avons rien trouvé dans cette selection...</p>
+            <p>Nous n&apos;avons rien trouvé dans cette selection...</p>
             <p>Peut-être faudrait-il songer à faire quelques achats ? ...</p>
           </>
         )}
