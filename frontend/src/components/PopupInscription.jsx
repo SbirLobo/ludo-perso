@@ -50,8 +50,6 @@ export default function PopupInscription({ hidden, setHidden }) {
     }
   };
 
-  console.log(user);
-
   return (
     <div className={`${!hidden ? "hidden" : ""} flex`}>
       <div

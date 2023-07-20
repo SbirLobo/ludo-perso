@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useLudo } from "../context/LudoContext";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CollectionCard from "../components/CollectionCard";
+import PopupCollection from "../components/PopupCollection";
 
 export default function Collection() {
   const {
@@ -19,6 +21,13 @@ export default function Collection() {
   const [nbPlayerFilter, setNbPlayerFilter] = useState(0);
   const [search, setSearch] = useState("");
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [idBoardgame, setIdBoardgame] = useState(0);
+
+  const handleClickCollection = (boardgame_id) => {
+    setHidden(!hidden);
+    setIdBoardgame(boardgame_id);
+  };
 
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
@@ -204,15 +213,35 @@ export default function Collection() {
             user_id={bg.user_id}
             boardgame_id={bg.boardgame_id}
             handleClickFavorite={handleClickFavorite}
+            handleClickCollection={handleClickCollection}
           />
         ))}
-        {!filteredCollection[0] && (
+        {!filteredCollection[0] && collection[0] && (
           <>
             <p>Nous n&apos;avons rien trouvé dans cette selection...</p>
             <p>Peut-être faudrait-il songer à faire quelques achats ? ...</p>
           </>
         )}
+        {!collection[0] && (
+          <div className="flex flex-col items-center gap-8">
+            <p className="text-3xl">Bienvenue à toi {loggedInUser.userName}</p>
+            <p>Pour commencer ton voyage, clique sur le lien suivant :</p>
+            <Link to="/univers">
+              <button
+                type="button"
+                className="text-white bg-dark rounded-md py-2 px-1 w-[82] border-2 border-white text-center hover:border-dark hover:bg-yellow hover:text-dark"
+              >
+                Univers
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
+      <PopupCollection
+        hidden={hidden}
+        setHidden={setHidden}
+        idBoardgame={idBoardgame}
+      />
     </>
   );
 }

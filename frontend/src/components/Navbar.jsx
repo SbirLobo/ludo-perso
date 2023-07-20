@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useLudo } from "../context/LudoContext";
 
 function Navbar() {
+  const { loggedInUser } = useLudo();
   const location = useLocation();
   const [active, setActive] = useState("");
 
@@ -67,7 +69,7 @@ function Navbar() {
               !isActive("/profil") ? "hover:underline" : ""
             } ${isActive("/profil") ? "active-nav" : ""}`}
           >
-            Profil
+            {loggedInUser.userName ? loggedInUser.userName : "profil"}
           </Link>
         </nav>
       </header>
