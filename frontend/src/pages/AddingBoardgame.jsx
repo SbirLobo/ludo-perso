@@ -1,9 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useLudo } from "../context/LudoContext";
 
 export default function AddingBoardgame() {
   const navigate = useNavigate();
+
+  const { setCollection } = useLudo();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1950 + 1 }, (_, index) =>
@@ -37,7 +40,13 @@ export default function AddingBoardgame() {
             nextNewBoardgame.year = Number(nextNewBoardgame.year);
             await axios
               .post(API, nextNewBoardgame)
-              .then(navigate("/univers"))
+              .catch((err) => console.error(err.response.data.message));
+            await axios
+              .get(API)
+              .then((res) => {
+                setCollection(res.data);
+                navigate("/univers");
+              })
               .catch((err) => console.error(err.response.data.message));
           }
         }
