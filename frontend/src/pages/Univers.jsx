@@ -91,7 +91,7 @@ export default function Univers() {
           alt="logo owned boardgame"
         />
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between max-md:flex-wrap">
         <div className="flex py-8 gap-3 items-center">
           <p>Joueuse(s)</p>
           <select
