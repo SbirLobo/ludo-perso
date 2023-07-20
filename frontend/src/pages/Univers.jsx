@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLudo } from "../context/LudoContext";
 import UniversCard from "../components/UniversCard";
+import PopupUnivers from "../components/PopupUnivers";
 
 export default function Univers() {
   const { loggedInUser, check, setCheck } = useLudo();
@@ -10,6 +11,24 @@ export default function Univers() {
   const [filteredUnivers, setFilteredUnivers] = useState([]);
   const [search, setSearch] = useState("");
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
+  const [idBoardgameUnivers, setIdBoardgameUnivers] = useState(0);
+  const [currentBoardgame, setCurrentBoardgame] = useState({
+    id: 0,
+    title: "",
+    nbPlayer: "",
+    playingTime: "",
+    standalone: 0,
+    year: 0,
+    language: "",
+    boxImg: "",
+  });
+
+  const [hidden, setHidden] = useState(false);
+
+  function handleClickUnivers(id) {
+    setHidden(!hidden);
+    setIdBoardgameUnivers(id);
+  }
 
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
@@ -166,6 +185,7 @@ export default function Univers() {
             year={bg.year}
             id={bg.id}
             handleClickAddBoardgame={handleClickAddBoardgame}
+            handleClickUnivers={handleClickUnivers}
           />
         ))}
         {!filteredUnivers[0] && (
@@ -175,6 +195,14 @@ export default function Univers() {
           </>
         )}
       </div>
+      <PopupUnivers
+        hidden={hidden}
+        setHidden={setHidden}
+        idBoardgameUnivers={idBoardgameUnivers}
+        currentBoardgame={currentBoardgame}
+        setCurrentBoardgame={setCurrentBoardgame}
+        univers={univers}
+      />
     </>
   );
 }

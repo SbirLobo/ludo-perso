@@ -40,7 +40,7 @@ export default function PopupBLABLA({ hidden, setHidden }) {
         className="popupLayout bg-dark"
         onClick={handleParentClick}
       >
-        <div className="rounded bg-white h-[80%] w-[80%] p-5 cursor-default overflow-scroll">
+        <div className="rounded bg-white h-[80%] w-[80%] max-w-4xl p-5 cursor-default overflow-scroll">
           <div className="flex flex-row-reverse">
             <button type="button" onClick={() => handleClickCross()}>
               <img
