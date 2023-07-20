@@ -56,7 +56,7 @@ export default function PopupCollection({
         className="popupLayout bg-dark"
         onClick={handleParentClick}
       >
-        <div className="rounded bg-white h-[80%] w-[80%] p-5 cursor-default overflow-scroll">
+        <div className="flex flex-col justify-between rounded bg-white max-w-4xl h-[80%] w-[80%] p-5 cursor-default overflow-hidden ">
           <div className="flex flex-row-reverse">
             <button type="button" onClick={() => handleClickCross()}>
               <img
@@ -67,7 +67,7 @@ export default function PopupCollection({
             </button>
           </div>
           <div className="flex flex-col px-8 pt-8">
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex max-sm:flex-col flex-row items-center justify-between">
               <img
                 className="w-60"
                 src={currentBoardgame.boxImg}
