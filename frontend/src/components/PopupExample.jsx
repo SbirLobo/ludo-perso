@@ -12,9 +12,9 @@ const handleClickBLABLA = () => {
   handleClickBLABLA={handleClickBLABLA}
 />;
 
-import PropTypes from "prop-types";
-
 ///////////////////////////////////////////////////////////////
+
+import PropTypes from "prop-types";
 
 export default function PopupBLABLA({ hidden, setHidden }) {
   function handleKeyDown(e) {
