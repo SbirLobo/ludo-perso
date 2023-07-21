@@ -32,8 +32,6 @@
 
 - Sébastien Birolleau: https://github.com/SbirLobo
 
-</br>
-
 ## Concept
 
 Avoir toutjours sa ludothèque à portée de main, admirer sa collection et la faire grandir. Ludo-perso va enfin vous permettre d'y voir clair.
