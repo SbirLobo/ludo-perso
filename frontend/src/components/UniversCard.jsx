@@ -29,7 +29,11 @@ function UniversCard({
             <img src="/assets/logo/eye.png" alt="logo eye" />
           </button>
         </div>
-        <img src={boxImg} alt={`image de ${title}`} className="w-full h-3/4" />
+        <img
+          src={boxImg}
+          alt={`image de ${title}`}
+          className="w-full object-contain h-3/4"
+        />
         <div className="flex flex-col items-center">
           <p className="text-center">{title}</p>
           <p className="text-xs text-[darkgrey] pb-1">{year}</p>
