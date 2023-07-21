@@ -11,8 +11,17 @@ export function LudoProvider({ children }) {
   const [favoriteFilter, setFavoriteFilter] = useState(false);
   const [check, setCheck] = useState(false);
   const [filteredCollection, setFilteredCollection] = useState([]);
-  const [idEditedBoardgame, setIdEditedBoardgame] = useState(0);
   const [univers, setUnivers] = useState([]);
+  const [originalBoardgame, setOriginalBoardgame] = useState({});
+  const [newBoardgame, setNewBoardgame] = useState({
+    title: "",
+    nbPlayer: "",
+    playingTime: "",
+    standalone: 1,
+    year: 0,
+    language: "français",
+    boxImg: "",
+  });
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -57,10 +66,12 @@ export function LudoProvider({ children }) {
       setFavoriteFilter,
       filteredCollection,
       setFilteredCollection,
-      idEditedBoardgame,
-      setIdEditedBoardgame,
       univers,
       setUnivers,
+      originalBoardgame,
+      setOriginalBoardgame,
+      newBoardgame,
+      setNewBoardgame,
     }),
     [
       allBoardgames,
@@ -79,10 +90,12 @@ export function LudoProvider({ children }) {
       setFavoriteFilter,
       filteredCollection,
       setFilteredCollection,
-      idEditedBoardgame,
-      setIdEditedBoardgame,
       univers,
       setUnivers,
+      originalBoardgame,
+      setOriginalBoardgame,
+      newBoardgame,
+      setNewBoardgame,
     ]
   );
 

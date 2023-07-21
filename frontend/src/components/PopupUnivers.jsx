@@ -15,7 +15,7 @@ export default function PopupUnivers({
   check2,
   setCheck2,
 }) {
-  const { setIdEditedBoardgame } = useLudo();
+  const { setNewBoardgame, setOriginalBoardgame } = useLudo();
 
   useEffect(() => {
     if (Number(idBoardgameUnivers) !== 0) {
@@ -52,7 +52,12 @@ export default function PopupUnivers({
   }
 
   function handleClickEdit(id) {
-    setIdEditedBoardgame(Number(id));
+    const idBG = Number(id);
+    const [data] = univers.filter((e) => e.id === idBG);
+    console.log(data);
+    console.log(idBG);
+    setNewBoardgame(data);
+    setOriginalBoardgame(data);
   }
 
   return (
@@ -107,7 +112,7 @@ export default function PopupUnivers({
             </div>
           </div>
           <div className="flex flex-row justify-between pt-8">
-            <Link to="/addingBoardgame">
+            <Link to="/editBoardgame">
               <button
                 type="button"
                 onClick={() => handleClickEdit(currentBoardgame.id)}
