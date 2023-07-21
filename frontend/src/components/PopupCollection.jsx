@@ -58,7 +58,7 @@ export default function PopupCollection({
         className="popupLayout bg-dark"
         onClick={handleParentClick}
       >
-        <div className="flex flex-col justify-between rounded bg-white max-w-4xl h-[80%] w-[80%] p-5 cursor-default overflow-hidden ">
+        <div className="flex flex-col justify-between rounded bg-white max-w-4xl h-[80%] w-[80%] p-5 cursor-default overflow-hidden">
           <div className="flex flex-row-reverse">
             <button type="button" onClick={() => handleClickCross()}>
               <img

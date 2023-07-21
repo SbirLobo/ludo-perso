@@ -6,8 +6,14 @@ import PopupUnivers from "../components/PopupUnivers";
 import { Link } from "react-router-dom";
 
 export default function Univers() {
-  const { loggedInUser, check, setCheck } = useLudo();
-  const [univers, setUnivers] = useState([]);
+  const {
+    loggedInUser,
+    check,
+    setCheck,
+    univers,
+    setUnivers,
+    setIdEditedBoardgame,
+  } = useLudo();
   const [nbPlayerFilterUnivers, setNbPlayerFilterUnivers] = useState(0);
   const [filteredUnivers, setFilteredUnivers] = useState([]);
   const [search, setSearch] = useState("");
@@ -29,7 +35,11 @@ export default function Univers() {
 
   function handleClickUnivers(id) {
     setHidden(!hidden);
-    setIdBoardgameUnivers(id);
+    setIdBoardgameUnivers(Number(id));
+  }
+
+  function handleClickBeforeAddinBoardgame() {
+    setIdEditedBoardgame(0);
   }
 
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
@@ -43,7 +53,7 @@ export default function Univers() {
         setFilteredUnivers(res.data);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, [check2]);
+  }, [check2, setUnivers]);
 
   const handleChangeNbPlayerFilter = (e) => {
     setNbPlayerFilterUnivers(Number(e.target.value));
@@ -157,6 +167,7 @@ export default function Univers() {
         </div>
         <Link to="/addingBoardgame">
           <button
+            onClick={handleClickBeforeAddinBoardgame}
             className="rounded-md h-1/2 px-2 py-1 border-2 text-center border-dark bg-blue text-white"
             type="button"
           >
