@@ -1,6 +1,6 @@
 <!-- Header section -->
 
-  <h1 align="center">Ludo-perso <img src="/assets/LOGO/logo_black.png" width="100px" height="100px" alt="logo"></h1>
+  <h1 align="center">Ludo-perso <img src="/assets/logo/logo.png" width="100px" height="100px" alt="logo"></h1>
 
 ### 🧰 Languages & Frameworks used :
 
