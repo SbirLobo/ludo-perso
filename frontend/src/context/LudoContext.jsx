@@ -11,6 +11,8 @@ export function LudoProvider({ children }) {
   const [favoriteFilter, setFavoriteFilter] = useState(false);
   const [check, setCheck] = useState(false);
   const [filteredCollection, setFilteredCollection] = useState([]);
+  const [idEditedBoardgame, setIdEditedBoardgame] = useState(0);
+  const [univers, setUnivers] = useState([]);
   const [user, setUser] = useState({
     userName: "",
     email: "",
@@ -35,7 +37,7 @@ export function LudoProvider({ children }) {
         setIdOwnedBoardgameList(data);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, [check]);
+  }, [check, loggedInUser]);
 
   const propsPassing = useMemo(
     () => ({
@@ -55,6 +57,10 @@ export function LudoProvider({ children }) {
       setFavoriteFilter,
       filteredCollection,
       setFilteredCollection,
+      idEditedBoardgame,
+      setIdEditedBoardgame,
+      univers,
+      setUnivers,
     }),
     [
       allBoardgames,
@@ -73,6 +79,10 @@ export function LudoProvider({ children }) {
       setFavoriteFilter,
       filteredCollection,
       setFilteredCollection,
+      idEditedBoardgame,
+      setIdEditedBoardgame,
+      univers,
+      setUnivers,
     ]
   );
 

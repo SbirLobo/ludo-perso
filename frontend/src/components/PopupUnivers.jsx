@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useLudo } from "../context/LudoContext";
 
 export default function PopupUnivers({
   hidden,
@@ -13,6 +15,8 @@ export default function PopupUnivers({
   check2,
   setCheck2,
 }) {
+  const { setIdEditedBoardgame } = useLudo();
+
   useEffect(() => {
     if (Number(idBoardgameUnivers) !== 0) {
       const [newCurrentBoardgame] = univers.filter(
@@ -47,6 +51,10 @@ export default function PopupUnivers({
     await setIdBoardgameUnivers(0);
   }
 
+  function handleClickEdit(id) {
+    setIdEditedBoardgame(Number(id));
+  }
+
   return (
     <div className={`${!hidden ? "hidden" : ""} flex`}>
       <div
@@ -56,7 +64,7 @@ export default function PopupUnivers({
         className="popupLayout bg-dark"
         onClick={handleParentClick}
       >
-        <div className="rounded bg-white h-[80%] w-[80%] max-w-4xl p-5 cursor-default overflow-scroll">
+        <div className="flex flex-col justify-between rounded bg-white max-w-4xl h-[80%] w-[80%] p-5 cursor-default overflow-hidden">
           <div className="flex flex-row-reverse">
             <button type="button" onClick={() => handleClickCross()}>
               <img
@@ -98,7 +106,19 @@ export default function PopupUnivers({
               </div>
             </div>
           </div>
-          <div className="flex flex-row-reverse">
+          <div className="flex flex-row justify-between pt-8">
+            <Link to="/addingBoardgame">
+              <button
+                type="button"
+                onClick={() => handleClickEdit(currentBoardgame.id)}
+              >
+                <img
+                  className="w-14"
+                  src="/assets/logo/edit.png"
+                  alt="logo edit"
+                />
+              </button>
+            </Link>
             <button
               type="button"
               onClick={() => handleClickBin(currentBoardgame.id)}
