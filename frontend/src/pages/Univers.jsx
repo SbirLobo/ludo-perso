@@ -6,14 +6,7 @@ import PopupUnivers from "../components/PopupUnivers";
 import { Link } from "react-router-dom";
 
 export default function Univers() {
-  const {
-    loggedInUser,
-    check,
-    setCheck,
-    univers,
-    setUnivers,
-    setIdEditedBoardgame,
-  } = useLudo();
+  const { loggedInUser, check, setCheck, univers, setUnivers } = useLudo();
   const [nbPlayerFilterUnivers, setNbPlayerFilterUnivers] = useState(0);
   const [filteredUnivers, setFilteredUnivers] = useState([]);
   const [search, setSearch] = useState("");
@@ -36,10 +29,6 @@ export default function Univers() {
   function handleClickUnivers(id) {
     setHidden(!hidden);
     setIdBoardgameUnivers(Number(id));
-  }
-
-  function handleClickBeforeAddinBoardgame() {
-    setIdEditedBoardgame(0);
   }
 
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
@@ -165,15 +154,16 @@ export default function Univers() {
             </option>
           </select>
         </div>
-        <Link to="/addingBoardgame">
-          <button
-            onClick={handleClickBeforeAddinBoardgame}
-            className="rounded-md h-1/2 px-2 py-1 border-2 text-center border-dark bg-blue text-white"
-            type="button"
-          >
-            + Ajouter un jeu +
-          </button>
-        </Link>
+        {loggedInUser.admin === 1 && (
+          <Link to="/admin/addingBoardgame">
+            <button
+              className="rounded-md h-1/2 px-2 py-1 border-2 text-center border-dark bg-blue text-white"
+              type="button"
+            >
+              + Ajouter un jeu +
+            </button>
+          </Link>
+        )}
         <div className="flex flex-row items-center">
           <p>🔎</p>
           <form className="p-1" onSubmit={handleSubmitSearch}>

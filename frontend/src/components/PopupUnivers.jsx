@@ -15,7 +15,7 @@ export default function PopupUnivers({
   check2,
   setCheck2,
 }) {
-  const { setNewBoardgame, setOriginalBoardgame } = useLudo();
+  const { setNewBoardgame, setOriginalBoardgame, loggedInUser } = useLudo();
 
   useEffect(() => {
     if (Number(idBoardgameUnivers) !== 0) {
@@ -54,8 +54,6 @@ export default function PopupUnivers({
   function handleClickEdit(id) {
     const idBG = Number(id);
     const [data] = univers.filter((e) => e.id === idBG);
-    console.log(data);
-    console.log(idBG);
     setNewBoardgame(data);
     setOriginalBoardgame(data);
   }
@@ -111,30 +109,32 @@ export default function PopupUnivers({
               </div>
             </div>
           </div>
-          <div className="flex flex-row justify-between pt-8">
-            <Link to="/editBoardgame">
+          {loggedInUser.admin === 1 && (
+            <div className="flex flex-row justify-between pt-8">
+              <Link to="/admin/editBoardgame">
+                <button
+                  type="button"
+                  onClick={() => handleClickEdit(currentBoardgame.id)}
+                >
+                  <img
+                    className="w-14"
+                    src="/assets/logo/edit.png"
+                    alt="logo edit"
+                  />
+                </button>
+              </Link>
               <button
                 type="button"
-                onClick={() => handleClickEdit(currentBoardgame.id)}
+                onClick={() => handleClickBin(currentBoardgame.id)}
               >
                 <img
                   className="w-14"
-                  src="/assets/logo/edit.png"
-                  alt="logo edit"
+                  src="/assets/logo/bin.png"
+                  alt="logo cross"
                 />
               </button>
-            </Link>
-            <button
-              type="button"
-              onClick={() => handleClickBin(currentBoardgame.id)}
-            >
-              <img
-                className="w-14"
-                src="/assets/logo/bin.png"
-                alt="logo cross"
-              />
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
