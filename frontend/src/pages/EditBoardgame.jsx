@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useLudo } from "../context/LudoContext";
@@ -22,7 +22,7 @@ export default function EditBoardgame() {
   const [playerMin, setPlayerMin] = useState("");
   const [playerMax, setPlayerMax] = useState("");
 
-  async function handleSubmitAddingBoardgame(e) {
+  async function handleSubmitEditBoardgame(e) {
     e.preventDefault();
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
     const APIPUT = `${import.meta.env.VITE_BACKEND_URL}/boardgames/${
@@ -52,19 +52,19 @@ export default function EditBoardgame() {
       }
     }
   }
-  function handleChangeAddingBoardgame(e) {
+  function handleChangeEditBoardgame(e) {
     const nextNewBoardgame = newBoardgame;
     nextNewBoardgame[e.target.name] = e.target.value;
     setNewBoardgame(nextNewBoardgame);
   }
-  function handleChangeAddingBoardgamePlayer(e) {
+  function handleChangeEditBoardgamePlayer(e) {
     if (e.target.name === "playerMin") {
       setPlayerMin(e.target.value);
     } else {
       setPlayerMax(e.target.value);
     }
   }
-  function handleChangeAddingBoardgameTime(e) {
+  function handleChangeEditBoardgameTime(e) {
     if (e.target.name === "timeMin") {
       setTimeMin(e.target.value);
     } else {
@@ -91,7 +91,7 @@ export default function EditBoardgame() {
       </div>
       <form
         className="flex flex-col gap-4 items-center"
-        onSubmit={handleSubmitAddingBoardgame}
+        onSubmit={handleSubmitEditBoardgame}
       >
         <div className="flex flex-col">
           <label htmlFor="text">{originalBoardgame.title}</label>
@@ -101,7 +101,7 @@ export default function EditBoardgame() {
             id="title-register"
             placeholder={originalBoardgame.title}
             className="text-dark w-72 p-1 rounded border-2 border-blue"
-            onChange={handleChangeAddingBoardgame}
+            onChange={handleChangeEditBoardgame}
           />
         </div>
         <div>
@@ -109,7 +109,7 @@ export default function EditBoardgame() {
           <select
             name="year"
             id="year"
-            onChange={handleChangeAddingBoardgame}
+            onChange={handleChangeEditBoardgame}
             className="border-2 border-blue w-72 p-1 rounded-md bg-white"
           >
             <option value={originalBoardgame.year}>
@@ -134,7 +134,7 @@ export default function EditBoardgame() {
                 name="playerMin"
                 placeholder={originalBoardgame.nbPlayer.split("-")[0]}
                 className="text-dark w-16 p-1 mr-4 rounded border-2 border-blue"
-                onChange={handleChangeAddingBoardgamePlayer}
+                onChange={handleChangeEditBoardgamePlayer}
               />
             </div>
             <div>
@@ -146,7 +146,7 @@ export default function EditBoardgame() {
                 name="playerMax"
                 placeholder={originalBoardgame.nbPlayer.split("-")[1]}
                 className="text-dark w-16 p-1 rounded border-2 border-blue"
-                onChange={handleChangeAddingBoardgamePlayer}
+                onChange={handleChangeEditBoardgamePlayer}
               />
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function EditBoardgame() {
                 name="timeMin"
                 placeholder={originalBoardgame.playingTime.split("-")[0]}
                 className="text-dark w-16 p-1 mr-4 rounded border-2 border-blue"
-                onChange={handleChangeAddingBoardgameTime}
+                onChange={handleChangeEditBoardgameTime}
               />
             </div>
             <div>
@@ -175,7 +175,7 @@ export default function EditBoardgame() {
                 name="timeMax"
                 placeholder={originalBoardgame.playingTime.split("-")[1]}
                 className="text-dark w-16 p-1 rounded border-2 border-blue"
-                onChange={handleChangeAddingBoardgameTime}
+                onChange={handleChangeEditBoardgameTime}
               />
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function EditBoardgame() {
           className="border-2 border-blue w-72 p-1 rounded-md bg-white"
           name="standalone"
           id="standalone"
-          onChange={handleChangeAddingBoardgame}
+          onChange={handleChangeEditBoardgame}
         >
           <option
             value={originalBoardgame.standalone ? "standalone" : "extension"}
@@ -200,7 +200,7 @@ export default function EditBoardgame() {
           className="border-2 border-blue w-72 p-1 rounded-md bg-white"
           name="language"
           id="language"
-          onChange={handleChangeAddingBoardgame}
+          onChange={handleChangeEditBoardgame}
         >
           <option value={originalBoardgame.language}>
             {originalBoardgame.language}
@@ -219,7 +219,7 @@ export default function EditBoardgame() {
             id="boxImg"
             placeholder={originalBoardgame.boxImg}
             className="text-dark w-72 p-1 rounded border-2 border-blue"
-            onChange={handleChangeAddingBoardgame}
+            onChange={handleChangeEditBoardgame}
           />
         </div>
         <button type="submit" className="blueButton self-center mt-2">
