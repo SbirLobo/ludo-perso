@@ -23,6 +23,7 @@ export default function Home() {
           id: res.data.user.id,
           userName: res.data.user.userName,
           email: res.data.user.email,
+          admin: res.data.user.admin,
         });
         navigate("/collection");
       })

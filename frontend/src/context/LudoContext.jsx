@@ -31,6 +31,7 @@ export function LudoProvider({ children }) {
     id: "",
     userName: "",
     email: "",
+    admin: 0,
   });
 
   useEffect(() => {
