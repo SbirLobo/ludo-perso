@@ -42,7 +42,7 @@ export default function Profil() {
             <span className="font-bold text-2xl text-pink">
               {collection.length}
             </span>{" "}
-            {collection.length <= 1 ? "jeu" : "jeux"} dans ta collection,
+            {collection.length <= 1 ? "jeu" : "jeux"} dans ta collection.
           </p>
           <button
             className="flex justify-center pb-6"
