@@ -9,6 +9,16 @@ const getAllBoardgames = async (req, res) => {
   }
 };
 
+const getOneBoardgame = async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  try {
+    const [bg] = await boardgameModels.findOneBoardgames(id);
+    res.status(200).send(bg[0]);
+  } catch (error) {
+    res.status(500).send("Oups, le serveur est en panne 😅");
+  }
+};
+
 const postBoardgame = (req, res) => {
   const data = req.body;
   boardgameModels
@@ -62,6 +72,7 @@ const deleteBoardgame = async (req, res, next) => {
 
 module.exports = {
   getAllBoardgames,
+  getOneBoardgame,
   postBoardgame,
   putBoardgame,
   deleteBoardgame,

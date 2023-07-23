@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLudo } from "../context/LudoContext";
 
 export default function PopupUnivers({
@@ -16,6 +16,7 @@ export default function PopupUnivers({
   setCheck2,
 }) {
   const { setNewBoardgame, setOriginalBoardgame, loggedInUser } = useLudo();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (Number(idBoardgameUnivers) !== 0) {
@@ -51,11 +52,18 @@ export default function PopupUnivers({
     await setIdBoardgameUnivers(0);
   }
 
-  function handleClickEdit(id) {
+  async function handleClickEdit(id) {
     const idBG = Number(id);
-    const [data] = univers.filter((e) => e.id === idBG);
-    setNewBoardgame(data);
-    setOriginalBoardgame(data);
+    const APIone = `${import.meta.env.VITE_BACKEND_URL}/boardgames/${idBG}`;
+    await axios
+      .get(APIone)
+      .then((res) => {
+        setOriginalBoardgame(res.data);
+        const [data] = univers.filter((e) => e.id === idBG);
+        setNewBoardgame(data);
+        navigate("/admin/editBoardgame");
+      })
+      .catch((err) => console.error(err.response.data.message));
   }
 
   return (
@@ -111,18 +119,16 @@ export default function PopupUnivers({
           </div>
           {loggedInUser.admin === 1 && (
             <div className="flex flex-row justify-between pt-8">
-              <Link to="/admin/editBoardgame">
-                <button
-                  type="button"
-                  onClick={() => handleClickEdit(currentBoardgame.id)}
-                >
-                  <img
-                    className="w-14"
-                    src="/assets/logo/edit.png"
-                    alt="logo edit"
-                  />
-                </button>
-              </Link>
+              <button
+                type="button"
+                onClick={() => handleClickEdit(currentBoardgame.id)}
+              >
+                <img
+                  className="w-14"
+                  src="/assets/logo/edit.png"
+                  alt="logo edit"
+                />
+              </button>
               <button
                 type="button"
                 onClick={() => handleClickBin(currentBoardgame.id)}

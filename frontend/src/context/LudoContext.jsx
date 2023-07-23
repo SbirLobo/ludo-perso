@@ -17,9 +17,9 @@ export function LudoProvider({ children }) {
     title: "",
     nbPlayer: "",
     playingTime: "",
-    standalone: 1,
+    standalone: "",
     year: 0,
-    language: "français",
+    language: "",
     boxImg: "",
   });
   const [user, setUser] = useState({

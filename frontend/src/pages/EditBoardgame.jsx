@@ -25,50 +25,98 @@ export default function EditBoardgame() {
   async function handleSubmitEditBoardgame(e) {
     e.preventDefault();
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
-    const APIPUT = `${import.meta.env.VITE_BACKEND_URL}/boardgames/${
+    const APIone = `${import.meta.env.VITE_BACKEND_URL}/boardgames/${
       newBoardgame.id
     }`;
+    let nextTimeMin = "";
+    let nextTimeMax = "";
+    let nextPlayerMin = "";
+    let nextPlayerMax = "";
     const nextNewBoardgame = newBoardgame;
-    if (timeMin <= timeMax) {
-      nextNewBoardgame.playingTime = `${timeMin}-${timeMax}`;
-      if (playerMin <= playerMax) {
-        nextNewBoardgame.nbPlayer = `${playerMin}-${playerMax}`;
-        if (nextNewBoardgame.standalone) {
-          nextNewBoardgame.standalone = Number(nextNewBoardgame.standalone);
-          if (nextNewBoardgame.year) {
-            nextNewBoardgame.year = Number(nextNewBoardgame.year);
-            await axios
-              .put(APIPUT, nextNewBoardgame)
-              .catch((err) => console.error(err.response.data.message));
-            await axios
-              .get(API)
-              .then((res) => {
-                setCollection(res.data);
-                navigate("/univers");
-              })
-              .catch((err) => console.error(err.response.data.message));
-          }
-        }
+
+    if (nextNewBoardgame.title === "") {
+      nextNewBoardgame.title = originalBoardgame.title;
+    }
+    if (nextNewBoardgame.year === "") {
+      nextNewBoardgame.year = originalBoardgame.year;
+    }
+    if (nextNewBoardgame.standalone === "") {
+      nextNewBoardgame.standalone = originalBoardgame.standalone;
+    }
+    if (nextNewBoardgame.language === "") {
+      nextNewBoardgame.language = originalBoardgame.language;
+    }
+    if (nextNewBoardgame.boxImg === "") {
+      nextNewBoardgame.boxImg = originalBoardgame.boxImg;
+    }
+    if (timeMin === "") {
+      nextTimeMin = originalBoardgame.playingTime.split("-")[0];
+    } else {
+      nextTimeMin = timeMin;
+    }
+    if (timeMax === "") {
+      nextTimeMax = originalBoardgame.playingTime.split("-")[1];
+    } else {
+      nextTimeMax = timeMax;
+    }
+    if (playerMin === "") {
+      nextPlayerMin = originalBoardgame.nbPlayer.split("-")[0];
+    } else {
+      nextPlayerMin = playerMin;
+    }
+    if (playerMax === "") {
+      nextPlayerMax = originalBoardgame.nbPlayer.split("-")[1];
+    } else {
+      nextPlayerMax = playerMax;
+    }
+    nextNewBoardgame.playingTime = `${nextTimeMin}-${nextTimeMax}`;
+    nextNewBoardgame.nbPlayer = `${nextPlayerMin}-${nextPlayerMax}`;
+
+    if (
+      nextNewBoardgame.playingTime.split("-")[0] <=
+      nextNewBoardgame.playingTime.split("-")[1]
+    ) {
+      if (
+        nextNewBoardgame.nbPlayer.split("-")[0] <=
+        nextNewBoardgame.nbPlayer.split("-")[1]
+      ) {
+        nextNewBoardgame.standalone = Number(nextNewBoardgame.standalone);
+        nextNewBoardgame.year = Number(nextNewBoardgame.year);
+        await axios
+          .put(APIone, nextNewBoardgame)
+          .catch((err) => console.error(err.response.data.message));
+        await axios
+          .get(API)
+          .then((res) => {
+            setCollection(res.data);
+            navigate("/univers");
+          })
+          .catch((err) => console.error(err.response.data.message));
       }
     }
   }
+
   function handleChangeEditBoardgame(e) {
     const nextNewBoardgame = newBoardgame;
-    nextNewBoardgame[e.target.name] = e.target.value;
+    if (e.target.name === "standalone" || e.target.name === "year") {
+      nextNewBoardgame[e.target.name] = Number(e.target.value);
+    } else {
+      nextNewBoardgame[e.target.name] = e.target.value;
+    }
     setNewBoardgame(nextNewBoardgame);
   }
   function handleChangeEditBoardgamePlayer(e) {
     if (e.target.name === "playerMin") {
-      setPlayerMin(e.target.value);
+      setPlayerMin(Number(e.target.value));
     } else {
-      setPlayerMax(e.target.value);
+      setPlayerMax(Number(e.target.value));
     }
   }
   function handleChangeEditBoardgameTime(e) {
     if (e.target.name === "timeMin") {
-      setTimeMin(e.target.value);
+      setTimeMin(Number(e.target.value));
     } else {
-      setTimeMax(e.target.value);
+      setTimeMax(Number(e.target.value));
     }
   }
 
