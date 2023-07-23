@@ -73,6 +73,7 @@ router.put(
 // *
 
 router.get("/boardgames", boardgameControllers.getAllBoardgames);
+router.get("/boardgames/:id", boardgameControllers.getOneBoardgame);
 router.post("/boardgames", boardgameControllers.postBoardgame);
 router.put("/boardgames/:id", boardgameControllers.putBoardgame);
 router.delete(

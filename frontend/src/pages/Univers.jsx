@@ -24,6 +24,8 @@ export default function Univers() {
     boxImg: "",
   });
 
+  const nb = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
   const [hidden, setHidden] = useState(false);
 
   function handleClickUnivers(id) {
@@ -110,65 +112,40 @@ export default function Univers() {
           alt="logo owned boardgame"
         />
       </div>
-      <div className="flex justify-between max-md:flex-wrap">
-        <div className="flex py-8 gap-3 items-center">
+      <div className="flex justify-between max-md:flex-col max-md:items-center max-md:justify-around gap-4">
+        <div className="flex my-1 gap-3 items-center">
           <p>Joueuse(s)</p>
           <select
             onChange={handleChangeNbPlayerFilter}
             name="playerNumber"
             id="playerNumber"
-            className="px-4 py-1.5 text-center bg-yellow rounded-md"
+            className="px-4 my-1 h-8 text-center bg-yellow rounded-md"
           >
             <option className="bg-white" value="0">
               -
             </option>
-            <option className="bg-white" value="1">
-              solo
-            </option>
-            <option className="bg-white" value="2">
-              duo
-            </option>
-            <option className="bg-white" value="3">
-              3
-            </option>
-            <option className="bg-white" value="4">
-              4
-            </option>
-            <option className="bg-white" value="5">
-              5
-            </option>
-            <option className="bg-white" value="6">
-              6
-            </option>
-            <option className="bg-white" value="7">
-              7
-            </option>
-            <option className="bg-white" value="8">
-              8
-            </option>
-            <option className="bg-white" value="9">
-              9
-            </option>
-            <option className="bg-white" value="10">
-              10
-            </option>
+            {nb.map((e) => (
+              <option key={e} className="bg-white" value={e}>
+                {e}
+              </option>
+            ))}
           </select>
         </div>
         {loggedInUser.admin === 1 && (
           <Link to="/admin/addingBoardgame">
             <button
-              className="rounded-md h-1/2 px-2 py-1 border-2 text-center border-dark bg-blue text-white"
+              className="rounded-md h-10 px-2 py-1 my-1 border-2 text-center border-dark bg-blue text-white"
               type="button"
             >
               + Ajouter un jeu +
             </button>
           </Link>
         )}
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row mb-4 items-center">
           <p>🔎</p>
           <form className="p-1" onSubmit={handleSubmitSearch}>
             <input
-              className="text-primary pl-1 border-2 border-blue rounded-md w-40"
+              className="text-primary h-8 pl-1 border-2 border-blue rounded-md w-40"
               type="search"
               placeholder="rechercher"
               value={search}
