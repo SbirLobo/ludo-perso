@@ -5,6 +5,11 @@ const findAllBoardgames = () => {
   return db.query(SQL);
 };
 
+const findOneBoardgames = (id) => {
+  const SQL = "SELECT * FROM boardgame WHERE id=?";
+  return db.query(SQL, [id]);
+};
+
 const createBoardgame = (data) => {
   const SQL =
     "INSERT INTO boardgame (title,nbPlayer,playingTime,standalone,year,language,boxImg) VALUES (?,?,?,?,?,?,?)";
@@ -41,6 +46,7 @@ const destroyBoardgame = (id) => {
 
 module.exports = {
   findAllBoardgames,
+  findOneBoardgames,
   createBoardgame,
   updateBoardgame,
   destroyBoardgame,
