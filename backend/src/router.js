@@ -10,6 +10,7 @@ const createdByControllers = require("./controllers/createdByControllers");
 const {
   hashPassword,
   verifyPassword,
+  verifyToken,
 } = require("./controllers/authControllers");
 
 const ownedByMiddlewares = require("./middlewares/ownedByMiddlewares");
@@ -20,6 +21,8 @@ const {
   foreignKeyON,
 } = require("./middlewares/ForeignKeyMiddleware");
 const { newUser, recognizeUser } = require("./middlewares/userMiddlewares");
+
+const app = express();
 
 router.get("/", (req, res) => {
   res.send("Welcome Home");
@@ -32,6 +35,8 @@ router.get("/", (req, res) => {
 router.post("/login", recognizeUser, verifyPassword);
 router.get("/logout", userControllers.logout);
 router.post("/inscription", newUser, hashPassword, userControllers.postUser);
+
+app.use(verifyToken);
 
 // *
 // Routes de la table user

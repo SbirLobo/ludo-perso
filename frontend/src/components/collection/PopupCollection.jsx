@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useLudo } from "../context/LudoContext";
+import { useLudo } from "../../context/LudoContext";
 import { useEffect } from "react";
 import axios from "axios";
 

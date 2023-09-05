@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useLudo } from "../context/LudoContext";
+import { useLudo } from "../../context/LudoContext";
 
 export default function EditBoardgame() {
   const navigate = useNavigate();

@@ -2,8 +2,8 @@ import axios from "axios";
 import { useLudo } from "../context/LudoContext";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import CollectionCard from "../components/CollectionCard";
-import PopupCollection from "../components/PopupCollection";
+import CollectionCard from "../components/collection/CollectionCard";
+import PopupCollection from "../components/collection/PopupCollection";
 
 export default function Collection() {
   const {

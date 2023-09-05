@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useLudo } from "../context/LudoContext";
+import { useLudo } from "../../context/LudoContext";
 
 export default function PopupUnivers({
   hidden,
