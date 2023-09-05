@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLudo } from "../context/LudoContext";
-import UniversCard from "../components/UniversCard";
-import PopupUnivers from "../components/PopupUnivers";
+import UniversCard from "../components/univers/UniversCard";
+import PopupUnivers from "../components/univers/PopupUnivers";
 import { Link } from "react-router-dom";
 
 export default function Univers() {
