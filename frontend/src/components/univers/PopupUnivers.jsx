@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLudo } from "../../context/LudoContext";
 
 export default function PopupUnivers({
@@ -117,6 +117,7 @@ export default function PopupUnivers({
               </div>
             </div>
           </div>
+          {loggedInUser.admin === 0 && <div />}
           {loggedInUser.admin === 1 && (
             <div className="flex flex-row justify-between pt-8">
               <button
