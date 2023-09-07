@@ -48,7 +48,7 @@ export default function PopupCollection({
     await setHidden(!hidden);
     await setIdBoardgame(0);
   }
-
+  console.log(currentBoardgame);
   return (
     <div className={`${!hidden ? "hidden" : ""} flex`}>
       <div

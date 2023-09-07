@@ -50,8 +50,25 @@ const deleteEditedByBoardgame = (req, res) => {
     });
 };
 
+const getAllBoardgameEditors = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await editedByModels.findAllBoardgameEditors(id);
+    const boardgames = data[0];
+    if (boardgames == null) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(boardgames);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Désolé, le serveur est en panne" });
+  }
+};
+
 module.exports = {
   getAllEditorBoardgame,
   postEditedByBoardgame,
   deleteEditedByBoardgame,
+  getAllBoardgameEditors,
 };

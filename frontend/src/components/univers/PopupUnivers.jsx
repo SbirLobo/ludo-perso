@@ -65,6 +65,7 @@ export default function PopupUnivers({
       })
       .catch((err) => console.error(err.response.data.message));
   }
+  console.log(currentBoardgame);
 
   return (
     <div className={`${!hidden ? "hidden" : ""} flex`}>
