@@ -21,9 +21,16 @@ const destroyEditedByBoardgame = (ideditor, idboardgame) => {
   return db.query(SQL, [ideditor, idboardgame]);
 };
 
+const findAllBoardgameEditors = (id) => {
+  const SQL =
+    "SELECT e.id, e.name, b.title FROM edited_by AS eb INNER JOIN boardgame AS b ON b.id = eb.boardgame_id INNER JOIN editor AS e ON e.id = eb.editor_id WHERE b.id = ?";
+  return db.query(SQL, [id]);
+};
+
 module.exports = {
   destroyEditedBoardgame,
   findAllEditorBoardgames,
   addEditedByBoardgame,
   destroyEditedByBoardgame,
+  findAllBoardgameEditors,
 };

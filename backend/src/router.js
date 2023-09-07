@@ -96,6 +96,10 @@ router.delete(
 // *
 
 router.get("/editedBy/:id", editedByControllers.getAllEditorBoardgame);
+router.get(
+  "/editedBy/boardgame/:id",
+  editedByControllers.getAllBoardgameEditors
+);
 router.post(
   "/editedBy/creation/:ideditor/:idboardgame",
   editedByControllers.postEditedByBoardgame
@@ -110,6 +114,10 @@ router.delete(
 // *
 
 router.get("/createdBy/:id", createdByControllers.getAllCreatorBoardgame);
+router.get(
+  "/createdBy/boardgame/:id",
+  createdByControllers.getAllBoardgameCreators
+);
 router.post(
   "/createdBy/creation/:idcreator/:idboardgame",
   createdByControllers.postCreatedByBoardgame

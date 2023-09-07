@@ -115,7 +115,6 @@ INSERT INTO `created_by`
 (boardgame_id,creator_id)
 VALUES
 (1,9),
-(2,9),
 (2,8),
 (2,7),
 (3,6),
