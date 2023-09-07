@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useLudo } from "../../context/LudoContext";
@@ -16,6 +16,8 @@ export default function PopupUnivers({
   setCheck2,
 }) {
   const { setNewBoardgame, setOriginalBoardgame, loggedInUser } = useLudo();
+  const [currentBoardgameEditors, setCurrentBoardgameEditors] = useState([]);
+  const [currentBoardgameCreators, setCurrentBoardgameCreators] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +26,24 @@ export default function PopupUnivers({
         (e) => e.id === Number(idBoardgameUnivers)
       );
       setCurrentBoardgame(newCurrentBoardgame);
+
+      const reqCreators = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/createdBy/boardgame/${Number(
+          idBoardgameUnivers
+        )}`
+      );
+      const reqEditors = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/editedBy/boardgame/${Number(
+          idBoardgameUnivers
+        )}`
+      );
+
+      axios.all([reqCreators, reqEditors]).then(
+        axios.spread((...res) => {
+          setCurrentBoardgameCreators(res[0].data);
+          setCurrentBoardgameEditors(res[1].data);
+        })
+      );
     }
     ////axios editor et creator à faire ici
   }, [idBoardgameUnivers, setCurrentBoardgame, univers]);
@@ -65,7 +85,6 @@ export default function PopupUnivers({
       })
       .catch((err) => console.error(err.response.data.message));
   }
-  console.log(currentBoardgame);
 
   return (
     <div className={`${!hidden ? "hidden" : ""} flex`}>
@@ -103,7 +122,19 @@ export default function PopupUnivers({
                     <p>Langue :</p>
                     <p>Joueuse(s) :</p>
                     <p>Durée :</p>
-                    <p>type :</p>
+                    <p>Type :</p>
+                    <p>
+                      Editeur(s) :
+                      {currentBoardgameEditors.map((e) => (
+                        <br key={e.id} />
+                      ))}
+                    </p>
+                    <p>
+                      Créateur(s) :
+                      {currentBoardgameCreators.map((e) => (
+                        <br key={e.id} />
+                      ))}
+                    </p>
                   </div>
                   <div>
                     <p>{currentBoardgame.year}</p>
@@ -113,6 +144,14 @@ export default function PopupUnivers({
                     <p>
                       {currentBoardgame.standalone ? "standalone" : "extension"}
                     </p>
+                    {currentBoardgameEditors.map((e) => (
+                      <p key={e.id}>{e.name}</p>
+                    ))}
+                    {currentBoardgameCreators.map((e) => (
+                      <p key={e.id}>
+                        {e.firstname} {e.lastname}
+                      </p>
+                    ))}
                   </div>
                 </div>
               </div>

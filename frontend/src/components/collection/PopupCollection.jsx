@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useLudo } from "../../context/LudoContext";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function PopupCollection({
@@ -12,6 +12,8 @@ export default function PopupCollection({
   setCurrentBoardgame,
 }) {
   const { collection, loggedInUser, check, setCheck } = useLudo();
+  const [currentBoardgameEditors, setCurrentBoardgameEditors] = useState([]);
+  const [currentBoardgameCreators, setCurrentBoardgameCreators] = useState([]);
 
   useEffect(() => {
     if (Number(idBoardgame) !== 0) {
@@ -19,6 +21,24 @@ export default function PopupCollection({
         (e) => e.boardgame_id === Number(idBoardgame)
       );
       setCurrentBoardgame(newCurrentBoardgame);
+
+      const reqCreators = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/createdBy/boardgame/${Number(
+          idBoardgame
+        )}`
+      );
+      const reqEditors = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/editedBy/boardgame/${Number(
+          idBoardgame
+        )}`
+      );
+
+      axios.all([reqCreators, reqEditors]).then(
+        axios.spread((...res) => {
+          setCurrentBoardgameCreators(res[0].data);
+          setCurrentBoardgameEditors(res[1].data);
+        })
+      );
     }
     ////axios editor et creator à faire ici
   }, [idBoardgame, collection, setCurrentBoardgame]);
@@ -48,7 +68,7 @@ export default function PopupCollection({
     await setHidden(!hidden);
     await setIdBoardgame(0);
   }
-  console.log(currentBoardgame);
+
   return (
     <div className={`${!hidden ? "hidden" : ""} flex`}>
       <div
@@ -85,7 +105,19 @@ export default function PopupCollection({
                     <p>Langue :</p>
                     <p>Joueuse(s) :</p>
                     <p>Durée :</p>
-                    <p>type :</p>
+                    <p>Type :</p>
+                    <p>
+                      Editeur(s) :
+                      {currentBoardgameEditors.map((e) => (
+                        <br key={e.id} />
+                      ))}
+                    </p>
+                    <p>
+                      Créateur(s) :
+                      {currentBoardgameCreators.map((e) => (
+                        <br key={e.id} />
+                      ))}
+                    </p>
                   </div>
                   <div>
                     <p>{currentBoardgame.year}</p>
@@ -95,6 +127,14 @@ export default function PopupCollection({
                     <p>
                       {currentBoardgame.standalone ? "standalone" : "extension"}
                     </p>
+                    {currentBoardgameEditors.map((e) => (
+                      <p key={e.id}>{e.name}</p>
+                    ))}
+                    {currentBoardgameCreators.map((e) => (
+                      <p key={e.id}>
+                        {e.firstname} {e.lastname}
+                      </p>
+                    ))}
                   </div>
                 </div>
               </div>
