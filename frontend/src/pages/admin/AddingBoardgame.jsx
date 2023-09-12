@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useLudo } from "../../context/LudoContext";
@@ -20,6 +20,10 @@ export default function AddingBoardgame() {
   const [timeMax, setTimeMax] = useState("");
   const [playerMin, setPlayerMin] = useState("");
   const [playerMax, setPlayerMax] = useState("");
+  const [creatorsList, setCreatorsList] = useState([]);
+  const [editorsList, setEditorsList] = useState([]);
+  const [selectedCreators, setSelectedCreators] = useState([]);
+  const [selectedEditors, setSelectedEditors] = useState([]);
   const [newBoardgame, setNewBoardgame] = useState({
     title: "",
     nbPlayer: "",
@@ -29,6 +33,19 @@ export default function AddingBoardgame() {
     language: "français",
     boxImg: "",
   });
+
+  useEffect(() => {
+    const reqCreators = axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/creators`
+    );
+    const reqEditors = axios.get(`${import.meta.env.VITE_BACKEND_URL}/editors`);
+    axios.all([reqCreators, reqEditors]).then(
+      axios.spread((...res) => {
+        setCreatorsList(res[0].data);
+        setEditorsList(res[1].data);
+      })
+    );
+  }, []);
 
   async function handleSubmitAddingBoardgame(e) {
     e.preventDefault();
@@ -74,6 +91,46 @@ export default function AddingBoardgame() {
       setTimeMin(e.target.value);
     } else {
       setTimeMax(e.target.value);
+    }
+  }
+  function handleChangeCreators(e) {
+    if (e.target.value !== "") {
+      if (e.target.value === "reset") {
+        setSelectedCreators([]);
+      } else {
+        if (
+          selectedCreators.filter(
+            (creator) => creator.id === Number(e.target.value)
+          ).length === 0
+        ) {
+          setSelectedCreators([
+            ...selectedCreators,
+            creatorsList.filter(
+              (creator) => creator.id === Number(e.target.value)
+            )[0],
+          ]);
+        }
+      }
+    }
+  }
+  function handleChangeEditors(e) {
+    if (e.target.value !== "") {
+      if (e.target.value === "reset") {
+        setSelectedEditors([]);
+      } else {
+        if (
+          selectedEditors.filter(
+            (editor) => editor.id === Number(e.target.value)
+          ).length === 0
+        ) {
+          setSelectedEditors([
+            ...selectedEditors,
+            editorsList.filter(
+              (editor) => editor.id === Number(e.target.value)
+            )[0],
+          ]);
+        }
+      }
     }
   }
 
@@ -196,6 +253,52 @@ export default function AddingBoardgame() {
           <option value="english">english</option>
           <option value="deutsch">deutsch</option>
         </select>
+        <div className="flex flex-col">
+          <label htmlFor="text">Créateur(s)</label>
+          {selectedCreators.map((creator) => (
+            <p key={creator.id} className="text-[grey] text-sm pl-2">
+              {creator.firstname} {creator.lastname}
+            </p>
+          ))}
+          <select
+            required
+            className="border-2 border-blue w-72 p-1 rounded-md bg-white"
+            name="creators"
+            id="creators"
+            onChange={handleChangeCreators}
+          >
+            <option value=""></option>
+            {creatorsList.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.firstname} {e.lastname}
+              </option>
+            ))}
+            <option value="reset">- Reset -</option>
+          </select>
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="text">Editeur(s)</label>
+          {selectedEditors.map((editor) => (
+            <p key={editor.id} className="text-[grey] text-sm pl-2">
+              {editor.name}
+            </p>
+          ))}
+          <select
+            required
+            className="border-2 border-blue w-72 p-1 rounded-md bg-white"
+            name="editors"
+            id="editors"
+            onChange={handleChangeEditors}
+          >
+            <option value=""></option>
+            {editorsList.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+            <option value="reset">- Reset -</option>
+          </select>
+        </div>
         <div className="flex flex-col">
           <label htmlFor="text">Source image</label>
           <input
