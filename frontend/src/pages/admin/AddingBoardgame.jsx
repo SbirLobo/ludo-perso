@@ -10,7 +10,7 @@ export default function AddingBoardgame() {
     navigate(-1);
   };
 
-  const { setCollection } = useLudo();
+  const { setCollection, univers } = useLudo();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1950 + 1 }, (_, index) =>
@@ -50,6 +50,12 @@ export default function AddingBoardgame() {
   async function handleSubmitAddingBoardgame(e) {
     e.preventDefault();
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
+    const postEditor = `${
+      import.meta.env.VITE_BACKEND_URL
+    }/editedBy/creation/:ideditor/${univers.length + 1}`;
+    const postCreator = `${
+      import.meta.env.VITE_BACKEND_URL
+    }/createdBy/creation/:idcreator/${univers.length + 1}`;
     const nextNewBoardgame = newBoardgame;
     if (timeMin <= timeMax) {
       nextNewBoardgame.playingTime = `${timeMin}-${timeMax}`;
@@ -62,6 +68,20 @@ export default function AddingBoardgame() {
             await axios
               .post(API, nextNewBoardgame)
               .catch((err) => console.error(err.response.data.message));
+            selectedCreators.map((creator) => {
+              axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/createdBy/creation/${
+                  creator.id
+                }/${univers.length + 1}`
+              );
+            });
+            selectedEditors.map((editor) => {
+              axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/editedBy/creation/${
+                  editor.id
+                }/${univers.length + 1}`
+              );
+            });
             await axios
               .get(API)
               .then((res) => {
