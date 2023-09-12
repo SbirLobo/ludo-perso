@@ -50,12 +50,6 @@ export default function AddingBoardgame() {
   async function handleSubmitAddingBoardgame(e) {
     e.preventDefault();
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
-    const postEditor = `${
-      import.meta.env.VITE_BACKEND_URL
-    }/editedBy/creation/:ideditor/${univers.length + 1}`;
-    const postCreator = `${
-      import.meta.env.VITE_BACKEND_URL
-    }/createdBy/creation/:idcreator/${univers.length + 1}`;
     const nextNewBoardgame = newBoardgame;
     if (timeMin <= timeMax) {
       nextNewBoardgame.playingTime = `${timeMin}-${timeMax}`;
