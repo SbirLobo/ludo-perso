@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useLudo } from "../context/LudoContext";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLudo } from "../context/LudoContext";
 import CollectionCard from "../components/collection/CollectionCard";
 import PopupCollection from "../components/collection/PopupCollection";
+import { Link } from "react-router-dom";
 
 export default function Collection() {
   const {
@@ -35,6 +35,8 @@ export default function Collection() {
     language: "",
     boxImg: "",
   });
+
+  const nb = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const handleClickCollection = (boardgame_id) => {
     setHidden(!hidden);
@@ -152,41 +154,16 @@ export default function Collection() {
             onChange={handleChangeNbPlayerFilter}
             name="playerNumber"
             id="playerNumber"
-            className="px-4 py-1.5 text-center bg-yellow rounded-md"
+            className="px-4 my-1 h-8 text-center bg-yellow rounded-md"
           >
             <option className="bg-white" value="0">
               -
             </option>
-            <option className="bg-white" value="1">
-              solo
-            </option>
-            <option className="bg-white" value="2">
-              duo
-            </option>
-            <option className="bg-white" value="3">
-              3
-            </option>
-            <option className="bg-white" value="4">
-              4
-            </option>
-            <option className="bg-white" value="5">
-              5
-            </option>
-            <option className="bg-white" value="6">
-              6
-            </option>
-            <option className="bg-white" value="7">
-              7
-            </option>
-            <option className="bg-white" value="8">
-              8
-            </option>
-            <option className="bg-white" value="9">
-              9
-            </option>
-            <option className="bg-white" value="10">
-              10
-            </option>
+            {nb.map((e) => (
+              <option key={e} className="bg-white" value={e}>
+                {e}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex py-8 gap-3 items-center">
