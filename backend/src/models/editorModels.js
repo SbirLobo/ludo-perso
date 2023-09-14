@@ -1,7 +1,7 @@
 const db = require("../database/config");
 
 const findAllEditors = () => {
-  const SQL = "SELECT * FROM editor";
+  const SQL = "SELECT * FROM editor ORDER BY name";
   return db.query(SQL);
 };
 

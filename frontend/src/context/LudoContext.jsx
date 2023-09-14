@@ -13,6 +13,8 @@ export function LudoProvider({ children }) {
   const [filteredCollection, setFilteredCollection] = useState([]);
   const [univers, setUnivers] = useState([]);
   const [originalBoardgame, setOriginalBoardgame] = useState({});
+  const [currentBoardgameEditors, setCurrentBoardgameEditors] = useState([]);
+  const [currentBoardgameCreators, setCurrentBoardgameCreators] = useState([]);
   const [newBoardgame, setNewBoardgame] = useState({
     title: "",
     nbPlayer: "",
@@ -73,6 +75,10 @@ export function LudoProvider({ children }) {
       setOriginalBoardgame,
       newBoardgame,
       setNewBoardgame,
+      currentBoardgameEditors,
+      setCurrentBoardgameEditors,
+      currentBoardgameCreators,
+      setCurrentBoardgameCreators,
     }),
     [
       allBoardgames,
@@ -97,6 +103,10 @@ export function LudoProvider({ children }) {
       setOriginalBoardgame,
       newBoardgame,
       setNewBoardgame,
+      currentBoardgameEditors,
+      setCurrentBoardgameEditors,
+      currentBoardgameCreators,
+      setCurrentBoardgameCreators,
     ]
   );
 
