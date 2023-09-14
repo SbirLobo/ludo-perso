@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useLudo } from "../../context/LudoContext";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 
 export default function PopupCollection({
@@ -11,9 +11,16 @@ export default function PopupCollection({
   currentBoardgame,
   setCurrentBoardgame,
 }) {
-  const { collection, loggedInUser, check, setCheck } = useLudo();
-  const [currentBoardgameEditors, setCurrentBoardgameEditors] = useState([]);
-  const [currentBoardgameCreators, setCurrentBoardgameCreators] = useState([]);
+  const {
+    collection,
+    loggedInUser,
+    check,
+    setCheck,
+    currentBoardgameEditors,
+    setCurrentBoardgameEditors,
+    currentBoardgameCreators,
+    setCurrentBoardgameCreators,
+  } = useLudo();
 
   useEffect(() => {
     if (Number(idBoardgame) !== 0) {
@@ -40,8 +47,13 @@ export default function PopupCollection({
         })
       );
     }
-    ////axios editor et creator à faire ici
-  }, [idBoardgame, collection, setCurrentBoardgame]);
+  }, [
+    idBoardgame,
+    collection,
+    setCurrentBoardgame,
+    setCurrentBoardgameCreators,
+    setCurrentBoardgameEditors,
+  ]);
 
   function handleKeyDown(e) {
     if (e.keyCode === 27) {

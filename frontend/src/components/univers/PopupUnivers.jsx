@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useLudo } from "../../context/LudoContext";
@@ -15,9 +15,16 @@ export default function PopupUnivers({
   check2,
   setCheck2,
 }) {
-  const { setNewBoardgame, setOriginalBoardgame, loggedInUser } = useLudo();
-  const [currentBoardgameEditors, setCurrentBoardgameEditors] = useState([]);
-  const [currentBoardgameCreators, setCurrentBoardgameCreators] = useState([]);
+  const {
+    setNewBoardgame,
+    setOriginalBoardgame,
+    loggedInUser,
+    currentBoardgameEditors,
+    setCurrentBoardgameEditors,
+    currentBoardgameCreators,
+    setCurrentBoardgameCreators,
+  } = useLudo();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,8 +52,13 @@ export default function PopupUnivers({
         })
       );
     }
-    ////axios editor et creator à faire ici
-  }, [idBoardgameUnivers, setCurrentBoardgame, univers]);
+  }, [
+    idBoardgameUnivers,
+    setCurrentBoardgame,
+    univers,
+    setCurrentBoardgameCreators,
+    setCurrentBoardgameEditors,
+  ]);
 
   function handleKeyDown(e) {
     if (e.keyCode === 27) {
