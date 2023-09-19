@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import AddingBoardgame from "./pages/admin/AddingBoardgame";
 import EditBoardgame from "./pages/admin/EditBoardgame";
 import Page404 from "./pages/Page404";
+import Production from "./pages/Production";
 import Profil from "./pages/Profil";
 import ProtectedRoutes from "./Protections/ProtectedRoutes";
 
@@ -31,6 +32,7 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/collection" element={<Collection />} />
           <Route path="/univers" element={<Univers />} />
+          <Route path="/production" element={<Production />} />
           <Route path="/profil" element={<Profil />} />
         </Route>
 

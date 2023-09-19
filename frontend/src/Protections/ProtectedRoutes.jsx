@@ -7,7 +7,12 @@ function RestrictedRoutes() {
   if (!loggedInUser.userName) {
     return <Navigate to="/" replace />;
   }
-  const allowedUserRoutes = ["/collection", "/univers", "/profil"];
+  const allowedUserRoutes = [
+    "/collection",
+    "/univers",
+    "/production",
+    "/profil",
+  ];
   if (!allowedUserRoutes.includes(location.pathname)) {
     return <Navigate to="/unauthorized" replace />;
   }
