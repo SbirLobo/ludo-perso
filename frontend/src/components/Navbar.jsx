@@ -64,14 +64,6 @@ function Navbar() {
             Univers
           </Link>
           <Link
-            to="/production"
-            className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
-              !isActive("/production") ? "hover:underline" : ""
-            } ${isActive("/production") ? "active-nav" : ""}`}
-          >
-            Production
-          </Link>
-          <Link
             to="/profil"
             className={`text-white rounded-md py-2 px-1 w-[64px] text-center ${
               !isActive("/profil") ? "hover:underline" : ""
@@ -101,15 +93,6 @@ function Navbar() {
           } ${isActive("/univers") ? "active-nav" : ""}`}
         >
           Univers
-        </Link>
-        <Link
-          to="/production"
-          onClick={handleClickLink}
-          className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
-            !isActive("/production") ? "hover:underline" : ""
-          } ${isActive("/production") ? "active-nav" : ""}`}
-        >
-          Production
         </Link>
         <Link
           to="/profil"

@@ -7,7 +7,7 @@ const destroyCreatedBoardgame = (id) => {
 
 const findAllCreatorBoardgames = (id) => {
   const SQL =
-    "SELECT c.creator_id, c.boardgame_id, b.title, b.nbPlayer, b.playingTime, b.standalone, b.year, b.language, b.boxImg FROM created_by AS c INNER JOIN boardgame AS b ON b.id = c.boardgame_id WHERE c.creator_id = ?";
+    "SELECT c.creator_id, c.boardgame_id AS id, b.title, b.nbPlayer, b.playingTime, b.standalone, b.year, b.language, b.boxImg FROM created_by AS c INNER JOIN boardgame AS b ON b.id = c.boardgame_id WHERE c.creator_id = ?";
   return db.query(SQL, [id]);
 };
 

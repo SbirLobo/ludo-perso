@@ -13,6 +13,11 @@ export default function Univers() {
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
   const [idBoardgameUnivers, setIdBoardgameUnivers] = useState(0);
   const [check2, setCheck2] = useState(false);
+  const [boardgameList, setBoardgameList] = useState([]);
+  const [creatorsList, setCreatorsList] = useState([]);
+  const [editorsList, setEditorsList] = useState([]);
+  const [selectedCreator, setSelectedCreator] = useState(0);
+  const [selectedEditor, setSelectedEditor] = useState(0);
   const [currentBoardgame, setCurrentBoardgame] = useState({
     id: 0,
     title: "",
@@ -36,13 +41,23 @@ export default function Univers() {
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
   useEffect(() => {
-    const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
+    const reqBoardgames = axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/boardgames`
+    );
+    const reqCreators = axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/creators`
+    );
+    const reqEditors = axios.get(`${import.meta.env.VITE_BACKEND_URL}/editors`);
     axios
-      .get(API)
-      .then((res) => {
-        setUnivers(res.data);
-        setFilteredUnivers(res.data);
-      })
+      .all([reqBoardgames, reqCreators, reqEditors])
+      .then(
+        axios.spread((...res) => {
+          setUnivers(res[0].data);
+          setFilteredUnivers(res[0].data);
+          setCreatorsList(res[1].data);
+          setEditorsList(res[2].data);
+        })
+      )
       .catch((err) => console.error(err.response.data.message));
   }, [check2, setUnivers]);
 
@@ -78,10 +93,48 @@ export default function Univers() {
       .catch((err) => console.error(err.response.data));
   };
 
+  const handleChangeCreator = async (e) => {
+    setSelectedCreator(Number(e.target.value));
+    setSelectedEditor(0);
+    setNbPlayerFilterUnivers(0);
+    setSearch("");
+
+    const API = `${import.meta.env.VITE_BACKEND_URL}/createdBy/${Number(
+      e.target.value
+    )}`;
+    await axios
+      .get(API)
+      .then((res) => {
+        setBoardgameList(res.data);
+      })
+      .catch((err) => console.error(err.response.data));
+  };
+  const handleChangeEditor = async (e) => {
+    setSelectedCreator(0);
+    setSelectedEditor(Number(e.target.value));
+    setNbPlayerFilterUnivers(0);
+    setSearch("");
+
+    const API = `${import.meta.env.VITE_BACKEND_URL}/editedBy/${Number(
+      e.target.value
+    )}`;
+    await axios
+      .get(API)
+      .then((res) => {
+        setBoardgameList(res.data);
+      })
+      .catch((err) => console.error(err.response.data));
+  };
+
   useEffect(() => {
     let nextFilteredCollection = [];
+    if (selectedCreator !== 0 || selectedEditor !== 0) {
+      nextFilteredCollection = boardgameList;
+    } else {
+      nextFilteredCollection = univers;
+    }
     if (nbPlayerFilterUnivers !== 0) {
-      nextFilteredCollection = univers.filter((e) => {
+      nextFilteredCollection = nextFilteredCollection.filter((e) => {
         const nbPlayer = e.nbPlayer.split("-");
         if (
           nbPlayerFilterUnivers >= nbPlayer[0] &&
@@ -90,8 +143,6 @@ export default function Univers() {
           return e;
         }
       });
-    } else {
-      nextFilteredCollection = univers.map((e) => e);
     }
     if (boardgameNameFilter) {
       const words = search.toLowerCase();
@@ -99,8 +150,19 @@ export default function Univers() {
         e.title.toLowerCase().includes(words)
       );
     }
+
     setFilteredUnivers(nextFilteredCollection);
-  }, [univers, nbPlayerFilterUnivers, search, boardgameNameFilter]);
+  }, [
+    univers,
+    nbPlayerFilterUnivers,
+    search,
+    boardgameNameFilter,
+    boardgameList,
+    selectedCreator,
+    selectedEditor,
+  ]);
+
+  console.log(filteredUnivers);
 
   return (
     <>
@@ -112,6 +174,70 @@ export default function Univers() {
           alt="logo owned boardgame"
         />
       </div>
+      <div className="flex flex-col items-center md:flex-row md:justify-evenly">
+        {loggedInUser.admin === 1 && (
+          <Link to="/admin/addingBoardgame">
+            <button
+              className="rounded-md h-10 px-2 py-1 my-1 border-2 text-center border-dark bg-blue text-white"
+              type="button"
+            >
+              + Ajouter un créateur +
+            </button>
+          </Link>
+        )}
+        {loggedInUser.admin === 1 && (
+          <Link to="/admin/addingBoardgame">
+            <button
+              className="rounded-md h-10 px-2 py-1 my-1 border-2 text-center border-dark bg-blue text-white"
+              type="button"
+            >
+              + Ajouter un éditeur +
+            </button>
+          </Link>
+        )}
+      </div>
+      <div className="flex flex-col items-center md:flex-row md:justify-evenly">
+        <div className="flex flex-col py-8 gap-3 items-center">
+          <p>Créateurs</p>
+          <select
+            name="creator"
+            id="creator"
+            className="px-4 my-1 h-8 text-center bg-yellow rounded-md"
+            onChange={handleChangeCreator}
+          >
+            {selectedCreator === 0 ? (
+              <option className="bg-white" value="0" selected></option>
+            ) : (
+              <option className="bg-white" value="0"></option>
+            )}
+            {creatorsList.map((e) => (
+              <option className="bg-white" key={e.id} value={e.id}>
+                {e.firstname} {e.lastname}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex flex-col py-8 gap-3 items-center">
+          <p>Editeurs</p>
+          <select
+            name="editor"
+            id="editor"
+            className="px-4 my-1 h-8 text-center bg-yellow rounded-md"
+            onChange={handleChangeEditor}
+          >
+            {selectedEditor === 0 ? (
+              <option className="bg-white" value="0" selected></option>
+            ) : (
+              <option className="bg-white" value="0"></option>
+            )}
+            {editorsList.map((e) => (
+              <option className="bg-white" key={e.id} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
       <div className="flex justify-between max-md:flex-col max-md:items-center max-md:justify-around gap-4">
         <div className="flex my-1 gap-3 items-center">
           <p>Joueuse(s)</p>
@@ -121,9 +247,16 @@ export default function Univers() {
             id="playerNumber"
             className="px-4 my-1 h-8 text-center bg-yellow rounded-md"
           >
-            <option className="bg-white" value="0">
-              -
-            </option>
+            {nbPlayerFilterUnivers === 0 ? (
+              <option className="bg-white" value="0" selected>
+                -
+              </option>
+            ) : (
+              <option className="bg-white" value="0">
+                -
+              </option>
+            )}
+
             {nb.map((e) => (
               <option key={e} className="bg-white" value={e}>
                 {e}
@@ -175,12 +308,6 @@ export default function Univers() {
             handleClickUnivers={handleClickUnivers}
           />
         ))}
-        {!filteredUnivers[0] && (
-          <>
-            <p>Le jeu que tu cherches n&apos;existe pas.</p>
-            <p>Soit tu peux le renseigner, soit tu DOIS l&apos;inventer !</p>
-          </>
-        )}
       </div>
       <PopupUnivers
         hidden={hidden}
