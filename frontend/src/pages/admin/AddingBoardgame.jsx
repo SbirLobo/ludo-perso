@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useLudo } from "../../context/LudoContext";
@@ -10,7 +10,7 @@ export default function AddingBoardgame() {
     navigate(-1);
   };
 
-  const { setCollection, univers } = useLudo();
+  const { setCollection, univers, creatorsList, editorsList } = useLudo();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1950 + 1 }, (_, index) =>
@@ -20,8 +20,6 @@ export default function AddingBoardgame() {
   const [timeMax, setTimeMax] = useState("");
   const [playerMin, setPlayerMin] = useState("");
   const [playerMax, setPlayerMax] = useState("");
-  const [creatorsList, setCreatorsList] = useState([]);
-  const [editorsList, setEditorsList] = useState([]);
   const [selectedCreators, setSelectedCreators] = useState([]);
   const [selectedEditors, setSelectedEditors] = useState([]);
   const [newBoardgame, setNewBoardgame] = useState({
@@ -33,19 +31,6 @@ export default function AddingBoardgame() {
     language: "français",
     boxImg: "",
   });
-
-  useEffect(() => {
-    const reqCreators = axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/creators`
-    );
-    const reqEditors = axios.get(`${import.meta.env.VITE_BACKEND_URL}/editors`);
-    axios.all([reqCreators, reqEditors]).then(
-      axios.spread((...res) => {
-        setCreatorsList(res[0].data);
-        setEditorsList(res[1].data);
-      })
-    );
-  }, []);
 
   async function handleSubmitAddingBoardgame(e) {
     e.preventDefault();
@@ -151,9 +136,7 @@ export default function AddingBoardgame() {
   return (
     <>
       <div className="flex flex-col items-center">
-        <h1 className="text-center pt-8 text-3xl">
-          Enregistre un nouveau jeu.
-        </h1>
+        <h1 className="text-center pt-8 text-3xl">Enregistre un nouveau jeu</h1>
         <hr className="border-[1.5px] my-8 border-pink w-1/2 max-72 text-center"></hr>
       </div>
       <div className="flex justify-center">

@@ -162,8 +162,6 @@ export default function Univers() {
     selectedEditor,
   ]);
 
-  console.log(filteredUnivers);
-
   return (
     <>
       <div className="flex flex-start items-center">
@@ -175,29 +173,17 @@ export default function Univers() {
         />
       </div>
       <div className="flex flex-col items-center md:flex-row md:justify-evenly">
-        {loggedInUser.admin === 1 && (
-          <Link to="/admin/addingBoardgame">
-            <button
-              className="rounded-md h-10 px-2 py-1 my-1 border-2 text-center border-dark bg-blue text-white"
-              type="button"
-            >
-              + Ajouter un créateur +
-            </button>
-          </Link>
-        )}
-        {loggedInUser.admin === 1 && (
-          <Link to="/admin/addingBoardgame">
-            <button
-              className="rounded-md h-10 px-2 py-1 my-1 border-2 text-center border-dark bg-blue text-white"
-              type="button"
-            >
-              + Ajouter un éditeur +
-            </button>
-          </Link>
-        )}
-      </div>
-      <div className="flex flex-col items-center md:flex-row md:justify-evenly">
         <div className="flex flex-col py-8 gap-3 items-center">
+          {loggedInUser.admin === 1 && (
+            <Link to="/admin/addingCreator">
+              <button
+                className="rounded-md h-10 px-2 py-1 my-1 border-2 text-center border-dark bg-blue text-white"
+                type="button"
+              >
+                + créateur +
+              </button>
+            </Link>
+          )}
           <p>Créateurs</p>
           <select
             name="creator"
@@ -218,6 +204,16 @@ export default function Univers() {
           </select>
         </div>
         <div className="flex flex-col py-8 gap-3 items-center">
+          {loggedInUser.admin === 1 && (
+            <Link to="/admin/addingEditor">
+              <button
+                className="rounded-md h-10 px-2 py-1 my-1 border-2 text-center border-dark bg-blue text-white"
+                type="button"
+              >
+                + éditeur +
+              </button>
+            </Link>
+          )}
           <p>Editeurs</p>
           <select
             name="editor"

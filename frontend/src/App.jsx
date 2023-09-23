@@ -8,6 +8,8 @@ import AddingBoardgame from "./pages/admin/AddingBoardgame";
 import AddingCreator from "./pages/admin/AddingCreator";
 import AddingEditor from "./pages/admin/AddingEditor";
 import EditBoardgame from "./pages/admin/EditBoardgame";
+import EditCreator from "./pages/admin/EditCreator";
+import EditEditor from "./pages/admin/EditEditor";
 import Page404 from "./pages/Page404";
 import Profil from "./pages/Profil";
 import ProtectedRoutes from "./Protections/ProtectedRoutes";
@@ -27,6 +29,8 @@ function App() {
           <Route path="/admin/addingCreator" element={<AddingCreator />} />
           <Route path="/admin/addingEditor" element={<AddingEditor />} />
           <Route path="/admin/editBoardgame" element={<EditBoardgame />} />
+          <Route path="/admin/editCreator" element={<EditCreator />} />
+          <Route path="/admin/editEditor" element={<EditEditor />} />
         </Route>
       </Routes>
     </Layout>
