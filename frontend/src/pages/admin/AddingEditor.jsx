@@ -1,25 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useLudo } from "../../context/LudoContext";
 
 export default function AddingEditor() {
-  const { setCurrentEditor } = useLudo();
+  const { setCurrentEditor, editorsList, setEditorsList } = useLudo();
   const [name, setName] = useState("");
-  const [editorsList, setEditorsList] = useState([]);
 
   const navigate = useNavigate();
   const goBack = () => {
-    navigate(-1);
+    navigate("/univers");
   };
-
-  useEffect(() => {
-    const reqCreators = `${import.meta.env.VITE_BACKEND_URL}/editors`;
-    axios
-      .get(reqCreators)
-      .then((res) => setEditorsList(res.data))
-      .catch((err) => console.error(err.response.data.message));
-  }, []);
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -45,7 +36,7 @@ export default function AddingEditor() {
   function handleClickEdit(id) {
     const editorRegister = editorsList.filter((e) => e.id === id)[0];
     setCurrentEditor(editorRegister);
-    navigate("/admin/editCreator");
+    navigate("/admin/editEditor");
   }
 
   return (

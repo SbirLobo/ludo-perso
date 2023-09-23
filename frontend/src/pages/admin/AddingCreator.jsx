@@ -1,26 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useLudo } from "../../context/LudoContext";
 
 export default function AddingCreator() {
-  const { setCurrentCreator } = useLudo();
+  const { setCurrentCreator, creatorsList, setCreatorsList } = useLudo();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [creatorsList, setCreatorsList] = useState([]);
 
   const navigate = useNavigate();
   const goBack = () => {
-    navigate(-1);
+    navigate("/univers");
   };
-
-  useEffect(() => {
-    const reqCreators = `${import.meta.env.VITE_BACKEND_URL}/creators`;
-    axios
-      .get(reqCreators)
-      .then((res) => setCreatorsList(res.data))
-      .catch((err) => console.error(err.response.data.message));
-  }, []);
 
   function handleChangeFirstname(e) {
     setFirstname(e.target.value);
