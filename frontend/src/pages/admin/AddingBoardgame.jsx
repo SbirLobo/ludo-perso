@@ -151,9 +151,7 @@ export default function AddingBoardgame() {
   return (
     <>
       <div className="flex flex-col items-center">
-        <h1 className="text-center pt-8 text-3xl">
-          Enregistre un nouveau jeu.
-        </h1>
+        <h1 className="text-center pt-8 text-3xl">Enregistre un nouveau jeu</h1>
         <hr className="border-[1.5px] my-8 border-pink w-1/2 max-72 text-center"></hr>
       </div>
       <div className="flex justify-center">
