@@ -84,9 +84,6 @@ router.put("/boardgames/:id", boardgameControllers.putBoardgame);
 router.delete(
   "/boardgames/:id",
   foreignKeyOFF,
-  // ownedByMiddlewares.deleteOwnedBoardgameByAnyUser,
-  // editedByMiddlewares.deleteEditedBoardgame,
-  // createdByMiddlewares.deleteCreatedBoardgame,
   boardgameControllers.deleteBoardgame,
   foreignKeyON
 );
@@ -134,6 +131,12 @@ router.delete(
 router.get("/creators", creatorControllers.getAllCreators);
 router.post("/creators", creatorControllers.postCreator);
 router.put("/creators/:id", creatorControllers.putCreator);
+router.delete(
+  "/creators/:id",
+  foreignKeyOFF,
+  creatorControllers.deleteCreator,
+  foreignKeyON
+);
 
 // *
 // Routes de la table editor
@@ -142,5 +145,11 @@ router.put("/creators/:id", creatorControllers.putCreator);
 router.get("/editors", editorControllers.getAllEditors);
 router.post("/editors", editorControllers.postEditor);
 router.put("/editors/:id", editorControllers.putEditor);
+router.delete(
+  "/editors/:id",
+  foreignKeyOFF,
+  editorControllers.deleteEditor,
+  foreignKeyON
+);
 
 module.exports = router;

@@ -15,8 +15,14 @@ const updateCreator = (data) => {
   return db.query(SQL, [data.firstname, data.lastname, data.id]);
 };
 
+const destroyCreator = (id) => {
+  const SQL = "DELETE FROM creator WHERE id = ?";
+  return db.query(SQL, [id]);
+};
+
 module.exports = {
   findAllCreators,
   createCreator,
   updateCreator,
+  destroyCreator,
 };

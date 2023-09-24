@@ -17,16 +17,15 @@ export default function EditEditor() {
   }
 
   async function handleClickBin(id) {
-    console.log(id);
-    // const API = `${import.meta.env.VITE_BACKEND_URL}/editors/${id}`;
-    // const reqEditors = `${import.meta.env.VITE_BACKEND_URL}/editors`;
-    // await axios
-    //   .delete(API)
-    //   .catch((err) => console.error(err.response.data.message));
-    // await axios
-    //   .get(reqEditors)
-    //   .then((res) => setEditorsList(res.data))
-    //   .catch((err) => console.error(err.response.data.message));
+    const API = `${import.meta.env.VITE_BACKEND_URL}/editors/${id}`;
+    const reqEditors = `${import.meta.env.VITE_BACKEND_URL}/editors`;
+    await axios
+      .delete(API)
+      .catch((err) => console.error(err.response.data.message));
+    await axios
+      .get(reqEditors)
+      .then((res) => setEditorsList(res.data))
+      .catch((err) => console.error(err.response.data.message));
     navigate(-1);
   }
 
