@@ -21,16 +21,15 @@ export default function EditCreator() {
   }
 
   async function handleClickBin(id) {
-    console.log(id);
-    // const API = `${import.meta.env.VITE_BACKEND_URL}/creators/${id}`;
-    // const reqCreators = `${import.meta.env.VITE_BACKEND_URL}/creators`;
-    // await axios
-    //   .delete(API)
-    //   .catch((err) => console.error(err.response.data.message));
-    // await axios
-    //   .get(reqCreators)
-    //   .then((res) => setCreatorsList(res.data))
-    //   .catch((err) => console.error(err.response.data.message));
+    const API = `${import.meta.env.VITE_BACKEND_URL}/creators/${id}`;
+    const reqCreators = `${import.meta.env.VITE_BACKEND_URL}/creators`;
+    await axios
+      .delete(API)
+      .catch((err) => console.error(err.response.data.message));
+    await axios
+      .get(reqCreators)
+      .then((res) => setCreatorsList(res.data))
+      .catch((err) => console.error(err.response.data.message));
     navigate(-1);
   }
 

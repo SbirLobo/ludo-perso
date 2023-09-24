@@ -44,8 +44,25 @@ const putCreator = (req, res) => {
     });
 };
 
+const deleteCreator = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const erase = await creatorModels.destroyCreator(id);
+    if (erase[0].affectedRows === 1) {
+      next();
+    } else {
+      res.status(404).json({
+        message: `Désolé, il y a eu un problème lors de la suppression de ce créateur sur l'étape 'delete creator'`,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Désolé, le serveur est en panne" });
+  }
+};
+
 module.exports = {
   getAllCreators,
   postCreator,
   putCreator,
+  deleteCreator,
 };
