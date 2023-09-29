@@ -10,7 +10,7 @@ export default function AddingBoardgame() {
     navigate(-1);
   };
 
-  const { setCollection, univers, creatorsList, editorsList } = useLudo();
+  const { setCollection, creatorsList, editorsList } = useLudo();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1950 + 1 }, (_, index) =>
@@ -35,6 +35,8 @@ export default function AddingBoardgame() {
   async function handleSubmitAddingBoardgame(e) {
     e.preventDefault();
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
+    let newID = 0;
+    let check = 0;
     const nextNewBoardgame = newBoardgame;
     if (timeMin <= timeMax) {
       nextNewBoardgame.playingTime = `${timeMin}-${timeMax}`;
@@ -46,28 +48,38 @@ export default function AddingBoardgame() {
             nextNewBoardgame.year = Number(nextNewBoardgame.year);
             await axios
               .post(API, nextNewBoardgame)
+              .then((check = 1))
               .catch((err) => console.error(err.response.data.message));
-            selectedCreators.map((creator) => {
-              axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/createdBy/creation/${
-                  creator.id
-                }/${univers.length + 1}`
-              );
-            });
-            selectedEditors.map((editor) => {
-              axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/editedBy/creation/${
-                  editor.id
-                }/${univers.length + 1}`
-              );
-            });
-            await axios
-              .get(API)
-              .then((res) => {
-                setCollection(res.data);
-                navigate("/univers");
-              })
-              .catch((err) => console.error(err.response.data.message));
+            if (check === 1) {
+              await axios
+                .get(API)
+                .then((res) => {
+                  newID = res.data[res.data.length - 1].id;
+                })
+                .catch((err) => console.error(err.response.data.message));
+
+              selectedCreators.map((creator) => {
+                axios.post(
+                  `${import.meta.env.VITE_BACKEND_URL}/createdBy/creation/${
+                    creator.id
+                  }/${newID}`
+                );
+              });
+              selectedEditors.map((editor) => {
+                axios.post(
+                  `${import.meta.env.VITE_BACKEND_URL}/editedBy/creation/${
+                    editor.id
+                  }/${newID}`
+                );
+              });
+              await axios
+                .get(API)
+                .then((res) => {
+                  setCollection(res.data);
+                  navigate("/univers");
+                })
+                .catch((err) => console.error(err.response.data.message));
+            }
           }
         }
       }
@@ -80,16 +92,16 @@ export default function AddingBoardgame() {
   }
   function handleChangeAddingBoardgamePlayer(e) {
     if (e.target.name === "playerMin") {
-      setPlayerMin(e.target.value);
+      setPlayerMin(Number(e.target.value));
     } else {
-      setPlayerMax(e.target.value);
+      setPlayerMax(Number(e.target.value));
     }
   }
   function handleChangeAddingBoardgameTime(e) {
     if (e.target.name === "timeMin") {
-      setTimeMin(e.target.value);
+      setTimeMin(Number(e.target.value));
     } else {
-      setTimeMax(e.target.value);
+      setTimeMax(Number(e.target.value));
     }
   }
   function handleChangeCreators(e) {
@@ -165,6 +177,7 @@ export default function AddingBoardgame() {
           />
         </div>
         <div>
+          <p className="text-left w-72 flex justify-between"></p>
           <select
             required
             name="year"
@@ -172,6 +185,7 @@ export default function AddingBoardgame() {
             onChange={handleChangeAddingBoardgame}
             className="border-2 border-blue w-72 p-1 rounded-md bg-white"
           >
+            <option value="0"></option>
             {years.map((year) => (
               <option key={year} value={year}>
                 {year}
