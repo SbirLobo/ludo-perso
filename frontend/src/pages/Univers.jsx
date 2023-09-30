@@ -18,6 +18,7 @@ export default function Univers() {
   const [editorsList, setEditorsList] = useState([]);
   const [selectedCreator, setSelectedCreator] = useState(0);
   const [selectedEditor, setSelectedEditor] = useState(0);
+  const [nbItems, setNbItems] = useState(0);
   const [currentBoardgame, setCurrentBoardgame] = useState({
     id: 0,
     title: "",
@@ -32,6 +33,10 @@ export default function Univers() {
   const nb = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const [hidden, setHidden] = useState(false);
+
+  function moreItems() {
+    setNbItems(nbItems + 25);
+  }
 
   function handleClickUnivers(id) {
     setHidden(!hidden);
@@ -150,7 +155,7 @@ export default function Univers() {
         e.title.toLowerCase().includes(words)
       );
     }
-
+    nextFilteredCollection = nextFilteredCollection.slice(0, nbItems + 25);
     setFilteredUnivers(nextFilteredCollection);
   }, [
     univers,
@@ -160,6 +165,7 @@ export default function Univers() {
     boardgameList,
     selectedCreator,
     selectedEditor,
+    nbItems,
   ]);
 
   return (
@@ -305,6 +311,18 @@ export default function Univers() {
           />
         ))}
       </div>
+      {univers.length > nbItems + 25 && (
+        <div className="flex justify-center pb-4">
+          <button
+            type="button"
+            onClick={moreItems}
+            className="px-3 py-1.5 bg-blue rounded-md border-4 border-yellow text-white"
+          >
+            Plus...
+          </button>
+        </div>
+      )}
+
       <PopupUnivers
         hidden={hidden}
         setHidden={setHidden}
