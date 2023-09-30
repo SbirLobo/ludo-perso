@@ -23,6 +23,12 @@ export default function Collection() {
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [idBoardgame, setIdBoardgame] = useState(0);
+  const [nbItems, setNbItems] = useState(0);
+
+  function moreItems() {
+    setNbItems(nbItems + 25);
+  }
+
   const [currentBoardgame, setCurrentBoardgame] = useState({
     user_id: 0,
     boardgame_id: 0,
@@ -127,6 +133,7 @@ export default function Collection() {
         e.title.toLowerCase().includes(words)
       );
     }
+    nextFilteredCollection = nextFilteredCollection.slice(0, nbItems + 25);
     setFilteredCollection(nextFilteredCollection);
   }, [
     collection,
@@ -135,6 +142,7 @@ export default function Collection() {
     search,
     boardgameNameFilter,
     setFilteredCollection,
+    nbItems,
   ]);
 
   return (
@@ -239,6 +247,17 @@ export default function Collection() {
           </div>
         )}
       </div>
+      {collection.length > nbItems + 25 && (
+        <div className="flex justify-center pb-4">
+          <button
+            type="button"
+            onClick={moreItems}
+            className="px-3 py-1.5 bg-blue rounded-md border-4 border-yellow text-white"
+          >
+            Plus...
+          </button>
+        </div>
+      )}
       <PopupCollection
         hidden={hidden}
         setHidden={setHidden}
