@@ -10,6 +10,7 @@ const createdByControllers = require("./controllers/createdByControllers");
 const {
   hashPassword,
   verifyPassword,
+  verifyToken,
 } = require("./controllers/authControllers");
 
 const ownedByMiddlewares = require("./middlewares/ownedByMiddlewares");
@@ -20,6 +21,8 @@ const {
   foreignKeyON,
 } = require("./middlewares/ForeignKeyMiddleware");
 const { newUser, recognizeUser } = require("./middlewares/userMiddlewares");
+
+const app = express();
 
 router.get("/", (req, res) => {
   res.send("Welcome Home");
@@ -32,6 +35,8 @@ router.get("/", (req, res) => {
 router.post("/login", recognizeUser, verifyPassword);
 router.get("/logout", userControllers.logout);
 router.post("/inscription", newUser, hashPassword, userControllers.postUser);
+
+app.use(verifyToken);
 
 // *
 // Routes de la table user
@@ -79,9 +84,6 @@ router.put("/boardgames/:id", boardgameControllers.putBoardgame);
 router.delete(
   "/boardgames/:id",
   foreignKeyOFF,
-  // ownedByMiddlewares.deleteOwnedBoardgameByAnyUser,
-  // editedByMiddlewares.deleteEditedBoardgame,
-  // createdByMiddlewares.deleteCreatedBoardgame,
   boardgameControllers.deleteBoardgame,
   foreignKeyON
 );
@@ -91,6 +93,10 @@ router.delete(
 // *
 
 router.get("/editedBy/:id", editedByControllers.getAllEditorBoardgame);
+router.get(
+  "/editedBy/boardgame/:id",
+  editedByControllers.getAllBoardgameEditors
+);
 router.post(
   "/editedBy/creation/:ideditor/:idboardgame",
   editedByControllers.postEditedByBoardgame
@@ -105,6 +111,10 @@ router.delete(
 // *
 
 router.get("/createdBy/:id", createdByControllers.getAllCreatorBoardgame);
+router.get(
+  "/createdBy/boardgame/:id",
+  createdByControllers.getAllBoardgameCreators
+);
 router.post(
   "/createdBy/creation/:idcreator/:idboardgame",
   createdByControllers.postCreatedByBoardgame
@@ -121,6 +131,12 @@ router.delete(
 router.get("/creators", creatorControllers.getAllCreators);
 router.post("/creators", creatorControllers.postCreator);
 router.put("/creators/:id", creatorControllers.putCreator);
+router.delete(
+  "/creators/:id",
+  foreignKeyOFF,
+  creatorControllers.deleteCreator,
+  foreignKeyON
+);
 
 // *
 // Routes de la table editor
@@ -129,5 +145,11 @@ router.put("/creators/:id", creatorControllers.putCreator);
 router.get("/editors", editorControllers.getAllEditors);
 router.post("/editors", editorControllers.postEditor);
 router.put("/editors/:id", editorControllers.putEditor);
+router.delete(
+  "/editors/:id",
+  foreignKeyOFF,
+  editorControllers.deleteEditor,
+  foreignKeyON
+);
 
 module.exports = router;

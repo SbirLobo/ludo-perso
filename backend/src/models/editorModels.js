@@ -1,7 +1,7 @@
 const db = require("../database/config");
 
 const findAllEditors = () => {
-  const SQL = "SELECT * FROM editor";
+  const SQL = "SELECT * FROM editor ORDER BY name";
   return db.query(SQL);
 };
 
@@ -15,8 +15,14 @@ const updateEditor = (data) => {
   return db.query(SQL, [data.name, data.id]);
 };
 
+const destroyEditor = (id) => {
+  const SQL = "DELETE FROM editor WHERE id = ?";
+  return db.query(SQL, [id]);
+};
+
 module.exports = {
   findAllEditors,
   createEditor,
   updateEditor,
+  destroyEditor,
 };

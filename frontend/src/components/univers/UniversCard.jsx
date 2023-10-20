@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useLudo } from "../context/LudoContext";
+import { useLudo } from "../../context/LudoContext";
 
 function UniversCard({
   title,
@@ -13,7 +13,7 @@ function UniversCard({
 
   return (
     <>
-      <div className="border-blue border-2 rounded-lg min-h-[284px] w-48 flex flex-col justify-between">
+      <div className="border-blue border-2 rounded-lg min-h-[284px] max-sm:w-32 sm:w-48 flex flex-col justify-between">
         <div className="m-1 absolute w-8">
           <button onClick={() => handleClickAddBoardgame(id)} type="button">
             <img

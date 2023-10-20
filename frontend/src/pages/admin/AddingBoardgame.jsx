@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useLudo } from "../context/LudoContext";
+import { useLudo } from "../../context/LudoContext";
 
 export default function AddingBoardgame() {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function AddingBoardgame() {
     navigate(-1);
   };
 
-  const { setCollection } = useLudo();
+  const { setCollection, creatorsList, editorsList } = useLudo();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1950 + 1 }, (_, index) =>
@@ -20,6 +20,8 @@ export default function AddingBoardgame() {
   const [timeMax, setTimeMax] = useState("");
   const [playerMin, setPlayerMin] = useState("");
   const [playerMax, setPlayerMax] = useState("");
+  const [selectedCreators, setSelectedCreators] = useState([]);
+  const [selectedEditors, setSelectedEditors] = useState([]);
   const [newBoardgame, setNewBoardgame] = useState({
     title: "",
     nbPlayer: "",
@@ -33,6 +35,8 @@ export default function AddingBoardgame() {
   async function handleSubmitAddingBoardgame(e) {
     e.preventDefault();
     const API = `${import.meta.env.VITE_BACKEND_URL}/boardgames`;
+    let newID = 0;
+    let check = 0;
     const nextNewBoardgame = newBoardgame;
     if (timeMin <= timeMax) {
       nextNewBoardgame.playingTime = `${timeMin}-${timeMax}`;
@@ -44,14 +48,38 @@ export default function AddingBoardgame() {
             nextNewBoardgame.year = Number(nextNewBoardgame.year);
             await axios
               .post(API, nextNewBoardgame)
+              .then((check = 1))
               .catch((err) => console.error(err.response.data.message));
-            await axios
-              .get(API)
-              .then((res) => {
-                setCollection(res.data);
-                navigate("/univers");
-              })
-              .catch((err) => console.error(err.response.data.message));
+            if (check === 1) {
+              await axios
+                .get(API)
+                .then((res) => {
+                  newID = res.data[res.data.length - 1].id;
+                })
+                .catch((err) => console.error(err.response.data.message));
+
+              selectedCreators.map((creator) => {
+                axios.post(
+                  `${import.meta.env.VITE_BACKEND_URL}/createdBy/creation/${
+                    creator.id
+                  }/${newID}`
+                );
+              });
+              selectedEditors.map((editor) => {
+                axios.post(
+                  `${import.meta.env.VITE_BACKEND_URL}/editedBy/creation/${
+                    editor.id
+                  }/${newID}`
+                );
+              });
+              await axios
+                .get(API)
+                .then((res) => {
+                  setCollection(res.data);
+                  navigate("/univers");
+                })
+                .catch((err) => console.error(err.response.data.message));
+            }
           }
         }
       }
@@ -64,25 +92,63 @@ export default function AddingBoardgame() {
   }
   function handleChangeAddingBoardgamePlayer(e) {
     if (e.target.name === "playerMin") {
-      setPlayerMin(e.target.value);
+      setPlayerMin(Number(e.target.value));
     } else {
-      setPlayerMax(e.target.value);
+      setPlayerMax(Number(e.target.value));
     }
   }
   function handleChangeAddingBoardgameTime(e) {
     if (e.target.name === "timeMin") {
-      setTimeMin(e.target.value);
+      setTimeMin(Number(e.target.value));
     } else {
-      setTimeMax(e.target.value);
+      setTimeMax(Number(e.target.value));
+    }
+  }
+  function handleChangeCreators(e) {
+    if (e.target.value !== "") {
+      if (e.target.value === "reset") {
+        setSelectedCreators([]);
+      } else {
+        if (
+          selectedCreators.filter(
+            (creator) => creator.id === Number(e.target.value)
+          ).length === 0
+        ) {
+          setSelectedCreators([
+            ...selectedCreators,
+            creatorsList.filter(
+              (creator) => creator.id === Number(e.target.value)
+            )[0],
+          ]);
+        }
+      }
+    }
+  }
+  function handleChangeEditors(e) {
+    if (e.target.value !== "") {
+      if (e.target.value === "reset") {
+        setSelectedEditors([]);
+      } else {
+        if (
+          selectedEditors.filter(
+            (editor) => editor.id === Number(e.target.value)
+          ).length === 0
+        ) {
+          setSelectedEditors([
+            ...selectedEditors,
+            editorsList.filter(
+              (editor) => editor.id === Number(e.target.value)
+            )[0],
+          ]);
+        }
+      }
     }
   }
 
   return (
     <>
       <div className="flex flex-col items-center">
-        <h1 className="text-center pt-8 text-3xl">
-          Enregistre un nouveau jeu.
-        </h1>
+        <h1 className="text-center pt-8 text-3xl">Enregistre un nouveau jeu</h1>
         <hr className="border-[1.5px] my-8 border-pink w-1/2 max-72 text-center"></hr>
       </div>
       <div className="flex justify-center">
@@ -111,6 +177,7 @@ export default function AddingBoardgame() {
           />
         </div>
         <div>
+          <p className="text-left w-72 flex justify-between"></p>
           <select
             required
             name="year"
@@ -118,6 +185,7 @@ export default function AddingBoardgame() {
             onChange={handleChangeAddingBoardgame}
             className="border-2 border-blue w-72 p-1 rounded-md bg-white"
           >
+            <option value="0"></option>
             {years.map((year) => (
               <option key={year} value={year}>
                 {year}
@@ -196,6 +264,52 @@ export default function AddingBoardgame() {
           <option value="english">english</option>
           <option value="deutsch">deutsch</option>
         </select>
+        <div className="flex flex-col">
+          <label htmlFor="text">Créateur(s)</label>
+          {selectedCreators.map((creator) => (
+            <p key={creator.id} className="text-[grey] text-sm pl-2">
+              {creator.firstname} {creator.lastname}
+            </p>
+          ))}
+          <select
+            required
+            className="border-2 border-blue w-72 p-1 rounded-md bg-white"
+            name="creators"
+            id="creators"
+            onChange={handleChangeCreators}
+          >
+            <option value=""></option>
+            {creatorsList.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.firstname} {e.lastname}
+              </option>
+            ))}
+            <option value="reset">- Reset -</option>
+          </select>
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="text">Editeur(s)</label>
+          {selectedEditors.map((editor) => (
+            <p key={editor.id} className="text-[grey] text-sm pl-2">
+              {editor.name}
+            </p>
+          ))}
+          <select
+            required
+            className="border-2 border-blue w-72 p-1 rounded-md bg-white"
+            name="editors"
+            id="editors"
+            onChange={handleChangeEditors}
+          >
+            <option value=""></option>
+            {editorsList.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+            <option value="reset">- Reset -</option>
+          </select>
+        </div>
         <div className="flex flex-col">
           <label htmlFor="text">Source image</label>
           <input

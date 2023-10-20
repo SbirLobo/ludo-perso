@@ -12,7 +12,7 @@ function CollectionCard({
 }) {
   return (
     <>
-      <div className="border-blue border-2 rounded-lg min-h-[284px] w-48 flex flex-col justify-between">
+      <div className="border-blue border-2 rounded-lg min-h-[284px] max-sm:w-32 sm:w-48 flex flex-col justify-between">
         <div className="m-1 absolute w-8">
           <button
             type="button"

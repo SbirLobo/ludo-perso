@@ -4,11 +4,16 @@ import Home from "./pages/Home";
 import Collection from "./pages/Collection";
 import Univers from "./pages/Univers";
 import Layout from "./components/Layout";
-import AddingBoardgame from "./pages/AddingBoardgame";
-import EditBoardgame from "./pages/EditBoardgame";
+import AddingBoardgame from "./pages/admin/AddingBoardgame";
+import AddingCreator from "./pages/admin/AddingCreator";
+import AddingEditor from "./pages/admin/AddingEditor";
+import EditBoardgame from "./pages/admin/EditBoardgame";
+import EditCreator from "./pages/admin/EditCreator";
+import EditEditor from "./pages/admin/EditEditor";
 import Page404 from "./pages/Page404";
 import Profil from "./pages/Profil";
 import ProtectedRoutes from "./Protections/ProtectedRoutes";
+import AdminRoutes from "./Protections/ProtectedRoutes";
 
 import "./App.css";
 
@@ -19,8 +24,14 @@ function App() {
   return isAdminRoute ? (
     <Layout>
       <Routes>
-        <Route path="/admin/addingBoardgame" element={<AddingBoardgame />} />
-        <Route path="/admin/editBoardgame" element={<EditBoardgame />} />
+        <Route element={<AdminRoutes />}>
+          <Route path="/admin/addingBoardgame" element={<AddingBoardgame />} />
+          <Route path="/admin/addingCreator" element={<AddingCreator />} />
+          <Route path="/admin/addingEditor" element={<AddingEditor />} />
+          <Route path="/admin/editBoardgame" element={<EditBoardgame />} />
+          <Route path="/admin/editCreator" element={<EditCreator />} />
+          <Route path="/admin/editEditor" element={<EditEditor />} />
+        </Route>
       </Routes>
     </Layout>
   ) : (

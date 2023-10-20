@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { useLudo } from "../context/LudoContext";
+import { useNavigate } from "react-router-dom";
+import { useLudo } from "../../context/LudoContext";
 
 export default function PopupUnivers({
   hidden,
@@ -15,7 +15,16 @@ export default function PopupUnivers({
   check2,
   setCheck2,
 }) {
-  const { setNewBoardgame, setOriginalBoardgame, loggedInUser } = useLudo();
+  const {
+    setNewBoardgame,
+    setOriginalBoardgame,
+    loggedInUser,
+    currentBoardgameEditors,
+    setCurrentBoardgameEditors,
+    currentBoardgameCreators,
+    setCurrentBoardgameCreators,
+  } = useLudo();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,9 +33,32 @@ export default function PopupUnivers({
         (e) => e.id === Number(idBoardgameUnivers)
       );
       setCurrentBoardgame(newCurrentBoardgame);
+
+      const reqCreators = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/createdBy/boardgame/${Number(
+          idBoardgameUnivers
+        )}`
+      );
+      const reqEditors = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/editedBy/boardgame/${Number(
+          idBoardgameUnivers
+        )}`
+      );
+
+      axios.all([reqCreators, reqEditors]).then(
+        axios.spread((...res) => {
+          setCurrentBoardgameCreators(res[0].data);
+          setCurrentBoardgameEditors(res[1].data);
+        })
+      );
     }
-    ////axios editor et creator à faire ici
-  }, [idBoardgameUnivers, setCurrentBoardgame, univers]);
+  }, [
+    idBoardgameUnivers,
+    setCurrentBoardgame,
+    univers,
+    setCurrentBoardgameCreators,
+    setCurrentBoardgameEditors,
+  ]);
 
   function handleKeyDown(e) {
     if (e.keyCode === 27) {
@@ -88,7 +120,7 @@ export default function PopupUnivers({
           <div className="flex flex-col px-8 pt-8">
             <div className="flex max-sm:flex-col flex-row items-center justify-between">
               <img
-                className="w-60"
+                className="sm:w-60 max-sm:h-28"
                 src={currentBoardgame.boxImg}
                 alt={`image de la boite de ${currentBoardgame.title}`}
               />
@@ -102,7 +134,19 @@ export default function PopupUnivers({
                     <p>Langue :</p>
                     <p>Joueuse(s) :</p>
                     <p>Durée :</p>
-                    <p>type :</p>
+                    <p>Type :</p>
+                    <p>
+                      Editeur(s) :
+                      {currentBoardgameEditors.map((e) => (
+                        <br key={e.id} />
+                      ))}
+                    </p>
+                    <p>
+                      Créateur(s) :
+                      {currentBoardgameCreators.map((e) => (
+                        <br key={e.id} />
+                      ))}
+                    </p>
                   </div>
                   <div>
                     <p>{currentBoardgame.year}</p>
@@ -112,11 +156,20 @@ export default function PopupUnivers({
                     <p>
                       {currentBoardgame.standalone ? "standalone" : "extension"}
                     </p>
+                    {currentBoardgameEditors.map((e) => (
+                      <p key={e.id}>{e.name}</p>
+                    ))}
+                    {currentBoardgameCreators.map((e) => (
+                      <p key={e.id}>
+                        {e.firstname} {e.lastname}
+                      </p>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          {loggedInUser.admin === 0 && <div />}
           {loggedInUser.admin === 1 && (
             <div className="flex flex-row justify-between pt-8">
               <button

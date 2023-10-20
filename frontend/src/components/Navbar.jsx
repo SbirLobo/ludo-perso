@@ -8,6 +8,7 @@ function Navbar() {
   const [active, setActive] = useState("");
 
   const handleClick = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     setActive(active === "" ? "active" : "");
   };
   const handleClickLink = () => {
@@ -35,7 +36,7 @@ function Navbar() {
         <button
           onClick={handleClick}
           type="button"
-          className="burger text-white absolute z-10 top-[30%] right-5 sm:hidden"
+          className="burger text-white absolute z-10 top-[30%] right-5 md:hidden"
         >
           <img
             src={
@@ -46,7 +47,7 @@ function Navbar() {
             alt="menu"
           />
         </button>
-        <nav className="hidden sm:flex z-20 items-center gap-10 mr-14 h-20">
+        <nav className="hidden md:flex z-20 items-center gap-10 mr-14 h-20">
           <Link
             to="/collection"
             className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
@@ -74,7 +75,7 @@ function Navbar() {
         </nav>
       </header>
       <nav
-        className={`sm:hidden bg-dark w-[150px] flex flex-col z-20 py-10 absolute right-0 top-[96px] rounded-bl-md menu translate-y-[-110%] ${active} bg-primary items-center gap-10`}
+        className={`md:hidden bg-dark w-[150px] flex flex-col z-20 py-10 absolute right-0 top-[96px] rounded-bl-md menu translate-y-[-110%] ${active} bg-primary items-center gap-10`}
       >
         <Link
           to="/collection"

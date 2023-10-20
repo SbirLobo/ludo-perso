@@ -12,7 +12,13 @@ export function LudoProvider({ children }) {
   const [check, setCheck] = useState(false);
   const [filteredCollection, setFilteredCollection] = useState([]);
   const [univers, setUnivers] = useState([]);
+  const [creatorsList, setCreatorsList] = useState([]);
+  const [editorsList, setEditorsList] = useState([]);
   const [originalBoardgame, setOriginalBoardgame] = useState({});
+  const [currentBoardgameEditors, setCurrentBoardgameEditors] = useState([]);
+  const [currentBoardgameCreators, setCurrentBoardgameCreators] = useState([]);
+  const [currentEditor, setCurrentEditor] = useState({});
+  const [currentCreator, setCurrentCreator] = useState({});
   const [newBoardgame, setNewBoardgame] = useState({
     title: "",
     nbPlayer: "",
@@ -47,6 +53,17 @@ export function LudoProvider({ children }) {
         setIdOwnedBoardgameList(data);
       })
       .catch((err) => console.error(err.response.data.message));
+
+    const reqCreators = axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/creators`
+    );
+    const reqEditors = axios.get(`${import.meta.env.VITE_BACKEND_URL}/editors`);
+    axios.all([reqCreators, reqEditors]).then(
+      axios.spread((...res) => {
+        setCreatorsList(res[0].data);
+        setEditorsList(res[1].data);
+      })
+    );
   }, [check, loggedInUser]);
 
   const propsPassing = useMemo(
@@ -73,6 +90,18 @@ export function LudoProvider({ children }) {
       setOriginalBoardgame,
       newBoardgame,
       setNewBoardgame,
+      currentBoardgameEditors,
+      setCurrentBoardgameEditors,
+      currentBoardgameCreators,
+      setCurrentBoardgameCreators,
+      currentEditor,
+      setCurrentEditor,
+      currentCreator,
+      setCurrentCreator,
+      creatorsList,
+      setCreatorsList,
+      editorsList,
+      setEditorsList,
     }),
     [
       allBoardgames,
@@ -97,6 +126,18 @@ export function LudoProvider({ children }) {
       setOriginalBoardgame,
       newBoardgame,
       setNewBoardgame,
+      currentBoardgameEditors,
+      setCurrentBoardgameEditors,
+      currentBoardgameCreators,
+      setCurrentBoardgameCreators,
+      currentEditor,
+      setCurrentEditor,
+      currentCreator,
+      setCurrentCreator,
+      creatorsList,
+      setCreatorsList,
+      editorsList,
+      setEditorsList,
     ]
   );
 
