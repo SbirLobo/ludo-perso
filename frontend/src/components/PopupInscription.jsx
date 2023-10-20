@@ -83,7 +83,7 @@ export default function PopupInscription({ hidden, setHidden }) {
                   id="email-register"
                   placeholder="exemple@gmail.com"
                   required
-                  className="text-dark w-72 p-1 rounded border-2 border-blue"
+                  className="text-dark w-56 sm:w-72 p-1 rounded border-2 border-blue"
                   onChange={handleChangeInscription}
                 />
               </div>
@@ -96,7 +96,7 @@ export default function PopupInscription({ hidden, setHidden }) {
                   name="userName"
                   id="userName"
                   required
-                  className="text-dark w-72 p-1 rounded border-2 border-blue"
+                  className="text-dark w-56 sm:w-72 p-1 rounded border-2 border-blue"
                   onChange={handleChangeInscription}
                 />
               </div>
@@ -108,7 +108,7 @@ export default function PopupInscription({ hidden, setHidden }) {
                   type="password"
                   name="password"
                   required
-                  className="text-dark w-72 p-1 rounded border-2 border-blue"
+                  className="text-dark w-56 sm:w-72 p-1 rounded border-2 border-blue"
                   onChange={handleChangeInscription}
                 />
                 <br />
@@ -119,7 +119,7 @@ export default function PopupInscription({ hidden, setHidden }) {
                   type="password"
                   name="confirmpassword"
                   required
-                  className="text-dark w-72 p-1 rounded border-2 border-blue"
+                  className="text-dark w-56 sm:w-72 p-1 rounded border-2 border-blue"
                   onChange={handleChangeInscription}
                 />
               </div>
