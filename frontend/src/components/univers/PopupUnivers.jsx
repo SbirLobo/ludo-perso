@@ -120,7 +120,7 @@ export default function PopupUnivers({
           <div className="flex flex-col px-8 pt-8">
             <div className="flex max-sm:flex-col flex-row items-center justify-between">
               <img
-                className="w-60"
+                className="sm:w-60 max-sm:h-28"
                 src={currentBoardgame.boxImg}
                 alt={`image de la boite de ${currentBoardgame.title}`}
               />
