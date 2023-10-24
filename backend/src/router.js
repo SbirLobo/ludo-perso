@@ -20,9 +20,15 @@ const {
   foreignKeyOFF,
   foreignKeyON,
 } = require("./middlewares/ForeignKeyMiddleware");
-const { newUser, recognizeUser } = require("./middlewares/userMiddlewares");
+const {
+  newUser,
+  recognizeUser,
+  checkIfAdmin,
+  checkUser,
+  emailValidity,
+} = require("./middlewares/userMiddlewares");
 
-const app = express();
+// ROUTES PUBLIQUES //
 
 router.get("/", (req, res) => {
   res.send("Welcome Home");
@@ -33,21 +39,31 @@ router.get("/", (req, res) => {
 // *
 
 router.post("/login", recognizeUser, verifyPassword);
-router.get("/logout", userControllers.logout);
-router.post("/inscription", newUser, hashPassword, userControllers.postUser);
+router.post(
+  "/inscription",
+  emailValidity,
+  newUser,
+  hashPassword,
+  userControllers.postUser
+);
 
-app.use(verifyToken);
+// ROUTES PRIVEES //
+
+router.use(verifyToken);
+
+router.get("/logout", userControllers.logout);
 
 // *
 // Routes de la table user
 // *
 
-router.get("/users", userControllers.getAllUser);
-router.get("/users/:id", userControllers.getOneUser);
-router.put("/users/:id", userControllers.putOneUser);
-router.put("/users/admin/:id", userControllers.adminStatus);
+router.get("/users", checkIfAdmin, userControllers.getAllUser);
+router.get("/users/:iduser", checkIfAdmin, userControllers.getOneUser);
+router.put("/users/:iduser", checkUser, userControllers.putOneUser);
+router.put("/users/admin/:iduser", checkIfAdmin, userControllers.adminStatus);
 router.delete(
-  "/users/:id",
+  "/users/:iduser",
+  checkIfAdmin,
   foreignKeyOFF,
   userControllers.deleteOneUser,
   ownedByControllers.deleteUser,
@@ -58,18 +74,25 @@ router.delete(
 // Routes de la table owned_by
 // *
 
-router.get("/user/owned/:id", ownedByControllers.getAllUserBoardgames);
+router.get(
+  "/user/owned/:iduser",
+  checkUser,
+  ownedByControllers.getAllUserBoardgames
+);
 router.post(
   "/user/owned/:iduser/:idboardgame",
+  checkUser,
   ownedByMiddlewares.checkIfOwned,
   ownedByControllers.postOwnedBoardgame
 );
 router.delete(
   "/user/owned/:iduser/:idboardgame",
+  checkUser,
   ownedByControllers.deleteOwnedBoardgame
 );
 router.put(
   "/user/owned/:iduser/:idboardgame",
+  checkUser,
   ownedByControllers.updateOwnedBoardgame
 );
 
@@ -79,10 +102,11 @@ router.put(
 
 router.get("/boardgames", boardgameControllers.getAllBoardgames);
 router.get("/boardgames/:id", boardgameControllers.getOneBoardgame);
-router.post("/boardgames", boardgameControllers.postBoardgame);
-router.put("/boardgames/:id", boardgameControllers.putBoardgame);
+router.post("/boardgames", checkIfAdmin, boardgameControllers.postBoardgame);
+router.put("/boardgames/:id", checkIfAdmin, boardgameControllers.putBoardgame);
 router.delete(
   "/boardgames/:id",
+  checkIfAdmin,
   foreignKeyOFF,
   boardgameControllers.deleteBoardgame,
   foreignKeyON
@@ -99,10 +123,12 @@ router.get(
 );
 router.post(
   "/editedBy/creation/:ideditor/:idboardgame",
+  checkIfAdmin,
   editedByControllers.postEditedByBoardgame
 );
 router.delete(
   "/editedBy/delete/:ideditor/:idboardgame",
+  checkIfAdmin,
   editedByControllers.deleteEditedByBoardgame
 );
 
@@ -117,10 +143,12 @@ router.get(
 );
 router.post(
   "/createdBy/creation/:idcreator/:idboardgame",
+  checkIfAdmin,
   createdByControllers.postCreatedByBoardgame
 );
 router.delete(
   "/createdBy/delete/:idcreator/:idboardgame",
+  checkIfAdmin,
   createdByControllers.deleteCreatedByBoardgame
 );
 
@@ -129,10 +157,11 @@ router.delete(
 // *
 
 router.get("/creators", creatorControllers.getAllCreators);
-router.post("/creators", creatorControllers.postCreator);
-router.put("/creators/:id", creatorControllers.putCreator);
+router.post("/creators", checkIfAdmin, creatorControllers.postCreator);
+router.put("/creators/:id", checkIfAdmin, creatorControllers.putCreator);
 router.delete(
   "/creators/:id",
+  checkIfAdmin,
   foreignKeyOFF,
   creatorControllers.deleteCreator,
   foreignKeyON
@@ -143,10 +172,11 @@ router.delete(
 // *
 
 router.get("/editors", editorControllers.getAllEditors);
-router.post("/editors", editorControllers.postEditor);
-router.put("/editors/:id", editorControllers.putEditor);
+router.post("/editors", checkIfAdmin, editorControllers.postEditor);
+router.put("/editors/:id", checkIfAdmin, editorControllers.putEditor);
 router.delete(
   "/editors/:id",
+  checkIfAdmin,
   foreignKeyOFF,
   editorControllers.deleteEditor,
   foreignKeyON

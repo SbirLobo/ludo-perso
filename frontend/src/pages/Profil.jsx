@@ -13,7 +13,7 @@ export default function Profil() {
       .then((res) => {
         console.warn(res.data.message);
         setLoggedInUser({
-          id: 0,
+          id: "",
           userName: "",
           email: "",
         });

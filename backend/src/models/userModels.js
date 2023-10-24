@@ -16,9 +16,9 @@ const findByEmail = (user) => {
   return db.query(SQL, [user.email]);
 };
 
-const findOneUser = (id) => {
+const findOneUser = (iduser) => {
   const SQL = "SELECT id, userName, email, admin FROM user WHERE id = ?";
-  return db.query(SQL, [id]);
+  return db.query(SQL, [iduser]);
 };
 
 const updateUser = (user) => {
@@ -27,13 +27,13 @@ const updateUser = (user) => {
 };
 
 const updateAdmin = (user) => {
-  const SQL = "UPDATE user SET admin = ? WHERE id = ?";
+  const SQL = "UPDATE user SET admin = ? WHERE id = ? AND id != 1";
   return db.query(SQL, [user.admin, user.id]);
 };
 
-const deleteUser = (id) => {
+const deleteUser = (iduser) => {
   const SQL = "DELETE FROM user WHERE admin != 1 AND id = ?";
-  return db.query(SQL, [id]);
+  return db.query(SQL, [iduser]);
 };
 
 module.exports = {

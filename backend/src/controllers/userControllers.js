@@ -27,9 +27,9 @@ const getAllUser = async (req, res) => {
 };
 
 const getOneUser = async (req, res) => {
-  const { id } = req.params;
+  const { iduser } = req.params;
   try {
-    const data = await userModels.findOneUser(id);
+    const data = await userModels.findOneUser(iduser);
     const user = data[0][0];
     if (user == null) {
       res.sendStatus(404);
@@ -44,7 +44,7 @@ const getOneUser = async (req, res) => {
 
 const putOneUser = (req, res) => {
   const user = req.body;
-  user.id = parseInt(req.params.id, 10);
+  user.id = parseInt(req.params.iduser, 10);
   userModels
     .updateUser(user)
     .then(([result]) => {
@@ -62,7 +62,7 @@ const putOneUser = (req, res) => {
 
 const adminStatus = (req, res) => {
   const user = req.body;
-  user.id = parseInt(req.params.id, 10);
+  user.id = parseInt(req.params.iduser, 10);
   userModels
     .updateAdmin(user)
     .then(([result]) => {
@@ -79,9 +79,9 @@ const adminStatus = (req, res) => {
 };
 
 const deleteOneUser = async (req, res, next) => {
-  const { id } = req.params;
+  const { iduser } = req.params;
   try {
-    const erase = await userModels.deleteUser(id);
+    const erase = await userModels.deleteUser(iduser);
     if (erase[0].affectedRows !== 0) {
       next();
     } else {
