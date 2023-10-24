@@ -41,29 +41,33 @@ export function LudoProvider({ children }) {
   });
 
   useEffect(() => {
-    const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
-      loggedInUser.id
-    }`;
-    axios
-      .get(API)
-      .then((res) => {
-        setCollection(res.data);
-        setFilteredCollection(res.data);
-        const data = res.data.map((e) => e.boardgame_id);
-        setIdOwnedBoardgameList(data);
-      })
-      .catch((err) => console.error(err.response.data.message));
+    if (loggedInUser.id !== "") {
+      const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
+        loggedInUser.id
+      }`;
+      axios
+        .get(API)
+        .then((res) => {
+          setCollection(res.data);
+          setFilteredCollection(res.data);
+          const data = res.data.map((e) => e.boardgame_id);
+          setIdOwnedBoardgameList(data);
+        })
+        .catch((err) => console.error(err.response.data.message));
 
-    const reqCreators = axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/creators`
-    );
-    const reqEditors = axios.get(`${import.meta.env.VITE_BACKEND_URL}/editors`);
-    axios.all([reqCreators, reqEditors]).then(
-      axios.spread((...res) => {
-        setCreatorsList(res[0].data);
-        setEditorsList(res[1].data);
-      })
-    );
+      const reqCreators = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/creators`
+      );
+      const reqEditors = axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/editors`
+      );
+      axios.all([reqCreators, reqEditors]).then(
+        axios.spread((...res) => {
+          setCreatorsList(res[0].data);
+          setEditorsList(res[1].data);
+        })
+      );
+    }
   }, [check, loggedInUser]);
 
   const propsPassing = useMemo(

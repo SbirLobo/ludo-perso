@@ -1,14 +1,14 @@
 const db = require("../database/config");
 
-const deleteOwnedByUser = (id) => {
+const deleteOwnedByUser = (iduser) => {
   const SQL = "DELETE FROM owned_by WHERE user_id = ?";
-  return db.query(SQL, [id]);
+  return db.query(SQL, [iduser]);
 };
 
-const findAllUserBoardgames = (id) => {
+const findAllUserBoardgames = (iduser) => {
   const SQL =
     "SELECT o.user_id, o.boardgame_id, o.favorite, b.title, b.nbPlayer, b.playingTime, b.standalone, b.year, b.language, b.boxImg FROM owned_by AS o INNER JOIN boardgame AS b ON b.id = o.boardgame_id WHERE o.user_id = ?";
-  return db.query(SQL, [id]);
+  return db.query(SQL, [iduser]);
 };
 
 const addBoardgame = (iduser, idboardgame) => {

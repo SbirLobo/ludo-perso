@@ -8,7 +8,6 @@ export default function Home() {
   const navigate = useNavigate();
   const { user, setUser, setLoggedInUser } = useLudo();
   const [hidden, setHidden] = useState(false);
-  const APILOGIN = `${import.meta.env.VITE_BACKEND_URL}/login`;
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -16,9 +15,12 @@ export default function Home() {
 
   const handleSubmitLogIn = (e) => {
     e.preventDefault();
+    const APILOGIN = `${import.meta.env.VITE_BACKEND_URL}/login`;
     axios
       .post(APILOGIN, { ...user }, { withCredentials: true })
       .then((res) => {
+        const { token } = res.data;
+        axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
         setLoggedInUser({
           id: res.data.user.id,
           userName: res.data.user.userName,
