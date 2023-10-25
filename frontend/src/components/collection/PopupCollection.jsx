@@ -20,6 +20,7 @@ export default function PopupCollection({
     setCurrentBoardgameEditors,
     currentBoardgameCreators,
     setCurrentBoardgameCreators,
+    selectedUser,
   } = useLudo();
 
   useEffect(() => {
@@ -153,16 +154,18 @@ export default function PopupCollection({
             </div>
           </div>
           <div className="flex flex-row-reverse">
-            <button
-              type="button"
-              onClick={() => handleClickBin(currentBoardgame.boardgame_id)}
-            >
-              <img
-                className="w-14"
-                src="/assets/logo/bin.png"
-                alt="logo cross"
-              />
-            </button>
+            {selectedUser === 0 && (
+              <button
+                type="button"
+                onClick={() => handleClickBin(currentBoardgame.boardgame_id)}
+              >
+                <img
+                  className="w-14"
+                  src="/assets/logo/bin.png"
+                  alt="logo cross"
+                />
+              </button>
+            )}
           </div>
         </div>
       </div>

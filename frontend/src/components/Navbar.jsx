@@ -48,14 +48,26 @@ function Navbar() {
           />
         </button>
         <nav className="hidden md:flex z-20 items-center gap-10 mr-14 h-20">
-          <Link
-            to="/collection"
-            className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
-              !isActive("/collection") ? "hover:underline" : ""
-            } ${isActive("/collection") ? "active-nav" : ""}`}
-          >
-            Ma collection
-          </Link>
+          {loggedInUser.admin ? (
+            <Link
+              to="/admin/userManager"
+              className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
+                !isActive("/admin/userManager") ? "hover:underline" : ""
+              } ${isActive("/admin/userManager") ? "active-nav" : ""}`}
+            >
+              Utilisateurs
+            </Link>
+          ) : (
+            <Link
+              to="/collection"
+              className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
+                !isActive("/collection") ? "hover:underline" : ""
+              } ${isActive("/collection") ? "active-nav" : ""}`}
+            >
+              Ma collection
+            </Link>
+          )}
+
           <Link
             to="/univers"
             className={`text-white rounded-md py-2 px-1 w-[82px] text-center ${
@@ -77,15 +89,28 @@ function Navbar() {
       <nav
         className={`md:hidden bg-dark w-[150px] flex flex-col z-20 py-10 absolute right-0 top-[96px] rounded-bl-md menu translate-y-[-110%] ${active} bg-primary items-center gap-10`}
       >
-        <Link
-          to="/collection"
-          onClick={handleClickLink}
-          className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
-            !isActive("/collection") ? "hover:underline" : ""
-          } ${isActive("/collection") ? "active-nav" : ""}`}
-        >
-          Ma collection
-        </Link>
+        {loggedInUser.admin ? (
+          <Link
+            to="/admin/userManager"
+            onClick={handleClickLink}
+            className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
+              !isActive("/admin/userManager") ? "hover:underline" : ""
+            } ${isActive("/admin/userManager") ? "active-nav" : ""}`}
+          >
+            Utilisateurs
+          </Link>
+        ) : (
+          <Link
+            to="/collection"
+            onClick={handleClickLink}
+            className={`text-white rounded-md py-2 px-1 w-[128px] text-center ${
+              !isActive("/collection") ? "hover:underline" : ""
+            } ${isActive("/collection") ? "active-nav" : ""}`}
+          >
+            Ma collection
+          </Link>
+        )}
+
         <Link
           to="/univers"
           onClick={handleClickLink}

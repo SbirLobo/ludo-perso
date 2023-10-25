@@ -6,7 +6,7 @@ import PopupInscription from "../components/PopupInscription";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user, setUser, setLoggedInUser } = useLudo();
+  const { user, setUser, setLoggedInUser, setSelectedUser } = useLudo();
   const [hidden, setHidden] = useState(false);
 
   const handleChange = (e) => {
@@ -27,6 +27,7 @@ export default function Home() {
           email: res.data.user.email,
           admin: res.data.user.admin,
         });
+        setSelectedUser(0);
         navigate("/collection");
       })
       .catch((err) => console.error(err.response.data.message));
