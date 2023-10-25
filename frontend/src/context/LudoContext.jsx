@@ -19,6 +19,7 @@ export function LudoProvider({ children }) {
   const [currentBoardgameCreators, setCurrentBoardgameCreators] = useState([]);
   const [currentEditor, setCurrentEditor] = useState({});
   const [currentCreator, setCurrentCreator] = useState({});
+  const [selectedUser, setSelectedUser] = useState(0);
   const [newBoardgame, setNewBoardgame] = useState({
     title: "",
     nbPlayer: "",
@@ -106,6 +107,8 @@ export function LudoProvider({ children }) {
       setCreatorsList,
       editorsList,
       setEditorsList,
+      selectedUser,
+      setSelectedUser,
     }),
     [
       allBoardgames,
@@ -142,6 +145,8 @@ export function LudoProvider({ children }) {
       setCreatorsList,
       editorsList,
       setEditorsList,
+      selectedUser,
+      setSelectedUser,
     ]
   );
 

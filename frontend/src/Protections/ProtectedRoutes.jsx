@@ -17,6 +17,8 @@ function RestrictedRoutes() {
     "/admin/editBoardgame",
     "/admin/editCreator",
     "/admin/editEditor",
+    "/admin/userManager",
+    "/admin/adminUser",
   ];
   if (!allowedUserRoutes.includes(location.pathname)) {
     return <Navigate to="/unauthorized" replace />;
