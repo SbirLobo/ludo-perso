@@ -38,7 +38,7 @@ const checkIfAdmin = async (req, res, next) => {
     const token = authorizationHeader.split(" ")[1];
     const decoded = jwt_decode(token);
     const id = decoded.sub;
-    const data = await userModels.findOneUser(id);
+    const data = await UserModels.findOneUser(id);
     const user = data[0][0];
     if (user.admin === 1) {
       next();
@@ -59,7 +59,7 @@ const checkUser = async (req, res, next) => {
     const token = authorizationHeader.split(" ")[1];
     const decoded = jwt_decode(token);
     const id = decoded.sub;
-    const data = await userModels.findOneUser(id);
+    const data = await UserModels.findOneUser(id);
     const user = data[0][0];
     if (user.admin === 1 || user.id === Number(req.params.iduser)) {
       next();
