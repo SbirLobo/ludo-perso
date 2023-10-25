@@ -17,6 +17,7 @@ export default function Collection() {
     setFavoriteFilter,
     filteredCollection,
     setFilteredCollection,
+    selectedUser,
   } = useLudo();
   const [nbPlayerFilter, setNbPlayerFilter] = useState(0);
   const [search, setSearch] = useState("");
@@ -52,9 +53,13 @@ export default function Collection() {
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
   useEffect(() => {
-    const API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
+    let API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${
       loggedInUser.id
     }`;
+    if (selectedUser !== 0) {
+      API = `${import.meta.env.VITE_BACKEND_URL}/user/owned/${selectedUser}`;
+    }
+
     axios
       .get(API)
       .then((res) => {
@@ -70,6 +75,7 @@ export default function Collection() {
     setFilteredCollection,
     setIdOwnedBoardgameList,
     setCollection,
+    selectedUser,
   ]);
 
   const handleClickFavorite = async (user_id, boardgame_id, favorite) => {
@@ -234,7 +240,15 @@ export default function Collection() {
         )}
         {!collection[0] && (
           <div className="flex flex-col items-center gap-8">
-            <p className="text-3xl">Bienvenue à toi {loggedInUser.userName}</p>
+            {selectedUser === 0 ? (
+              <p className="text-3xl">
+                Bienvenue à toi {loggedInUser.userName}
+              </p>
+            ) : (
+              <p className="text-3xl">
+                Cet utilisateur n'a pas commencé sa collection
+              </p>
+            )}
             <p>Pour commencer ton voyage, clique sur le lien suivant :</p>
             <Link to="/univers">
               <button

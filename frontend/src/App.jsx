@@ -14,6 +14,8 @@ import Page404 from "./pages/Page404";
 import Profil from "./pages/Profil";
 import ProtectedRoutes from "./Protections/ProtectedRoutes";
 import AdminRoutes from "./Protections/ProtectedRoutes";
+import UserManager from "./pages/admin/UserManager";
+import AdminUser from "./pages/admin/AdminUser";
 
 import "./App.css";
 
@@ -31,6 +33,8 @@ function App() {
           <Route path="/admin/editBoardgame" element={<EditBoardgame />} />
           <Route path="/admin/editCreator" element={<EditCreator />} />
           <Route path="/admin/editEditor" element={<EditEditor />} />
+          <Route path="/admin/userManager" element={<UserManager />} />
+          <Route path="/admin/adminUser" element={<AdminUser />} />
         </Route>
       </Routes>
     </Layout>

@@ -1,9 +1,9 @@
 const ownedByModels = require("../models/ownedByModels");
 
 const deleteUser = async (req, res, next) => {
-  const { id } = req.params;
+  const { iduser } = req.params;
   try {
-    const erase = await ownedByModels.deleteOwnedByUser(id);
+    const erase = await ownedByModels.deleteOwnedByUser(iduser);
     if (erase[0].affectedRows !== 0) {
       next();
     } else {
@@ -17,9 +17,9 @@ const deleteUser = async (req, res, next) => {
 };
 
 const getAllUserBoardgames = async (req, res) => {
-  const { id } = req.params;
+  const { iduser } = req.params;
   try {
-    const data = await ownedByModels.findAllUserBoardgames(id);
+    const data = await ownedByModels.findAllUserBoardgames(iduser);
     const boardgames = data[0];
     if (boardgames == null) {
       res.sendStatus(404);
