@@ -29,5 +29,5 @@ UserCard.propTypes = {
   id: PropTypes.number,
   userName: PropTypes.string,
   email: PropTypes.string,
-  admin: PropTypes.bool,
+  admin: PropTypes.number,
 };
