@@ -32,7 +32,7 @@ const updateAdmin = (user) => {
 };
 
 const deleteUser = (iduser) => {
-  const SQL = "DELETE FROM user WHERE admin != 1 AND id = ?";
+  const SQL = "DELETE FROM user WHERE admin != 1 AND id = ? AND id != 1";
   return db.query(SQL, [iduser]);
 };
 
