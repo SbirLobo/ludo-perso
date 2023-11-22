@@ -79,15 +79,17 @@ export default function Collection() {
   ]);
 
   const handleClickFavorite = async (user_id, boardgame_id, favorite) => {
-    const API = `${
-      import.meta.env.VITE_BACKEND_URL
-    }/user/owned/${user_id}/${boardgame_id}`;
-    await axios
-      .put(API, { favorite: !favorite })
-      .then(() => {
-        setCheck(!check);
-      })
-      .catch((err) => console.error(err.response.data));
+    if (selectedUser === 0) {
+      const API = `${
+        import.meta.env.VITE_BACKEND_URL
+      }/user/owned/${user_id}/${boardgame_id}`;
+      await axios
+        .put(API, { favorite: !favorite })
+        .then(() => {
+          setCheck(!check);
+        })
+        .catch((err) => console.error(err.response.data));
+    }
   };
 
   const handleChangeNbPlayerFilter = (e) => {
