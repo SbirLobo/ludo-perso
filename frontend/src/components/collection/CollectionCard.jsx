@@ -54,11 +54,12 @@ CollectionCard.propTypes = {
   boxImg: PropTypes.string,
   title: PropTypes.string,
   year: PropTypes.number,
-  favorite: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.boolean,
-  ]),
+  favorite: PropTypes.number,
+  // favorite: PropTypes.oneOfType(
+  //   PropTypes.string,
+  //   PropTypes.number,
+  //   PropTypes.boolean,
+  // ),
   boardgame_id: PropTypes.number,
   user_id: PropTypes.number,
   handleClickFavorite: PropTypes.func,
