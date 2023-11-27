@@ -198,7 +198,7 @@ export default function Univers() {
             onChange={handleChangeCreator}
           >
             {selectedCreator === 0 ? (
-              <option className="bg-white" value="0" defaultValue="0"></option>
+              <option className="bg-white" value="0" selected></option>
             ) : (
               <option className="bg-white" value="0"></option>
             )}
@@ -228,7 +228,7 @@ export default function Univers() {
             onChange={handleChangeEditor}
           >
             {selectedEditor === 0 ? (
-              <option className="bg-white" value="0" defaultValue="0"></option>
+              <option className="bg-white" value="0" selected></option>
             ) : (
               <option className="bg-white" value="0"></option>
             )}
@@ -250,7 +250,7 @@ export default function Univers() {
             className="px-4 my-1 h-8 text-center bg-yellow rounded-md"
           >
             {nbPlayerFilterUnivers === 0 ? (
-              <option className="bg-white" value="0" defaultValue="0">
+              <option className="bg-white" value="0" selected>
                 -
               </option>
             ) : (
