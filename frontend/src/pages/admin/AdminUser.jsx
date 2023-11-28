@@ -19,10 +19,9 @@ export default function AdminUser() {
       .get(API)
       .then((res) => {
         setUser(res.data);
-        setRefresh(!refresh);
       })
       .catch((err) => console.error(err.response.data.message));
-  }, [setUser, selectedUser, refresh, setRefresh]);
+  }, [setUser, selectedUser, refresh]);
 
   function changeAdminStatus() {
     const API = `${
