@@ -25,6 +25,7 @@ export default function Collection() {
   const [hidden, setHidden] = useState(false);
   const [idBoardgame, setIdBoardgame] = useState(0);
   const [nbItems, setNbItems] = useState(0);
+  const [filteredCollection25, setFilteredCollection25] = useState([]);
 
   function moreItems() {
     setNbItems(nbItems + 25);
@@ -126,7 +127,7 @@ export default function Collection() {
         }
       });
     } else {
-      nextFilteredCollection = collection.map((e) => e);
+      nextFilteredCollection = collection;
     }
     if (favoriteFilter) {
       nextFilteredCollection = nextFilteredCollection.filter((e) => {
@@ -141,8 +142,9 @@ export default function Collection() {
         e.title.toLowerCase().includes(words)
       );
     }
-    nextFilteredCollection = nextFilteredCollection.slice(0, nbItems + 25);
     setFilteredCollection(nextFilteredCollection);
+    nextFilteredCollection = nextFilteredCollection.slice(0, nbItems + 25);
+    setFilteredCollection25(nextFilteredCollection);
   }, [
     collection,
     nbPlayerFilter,
@@ -219,7 +221,7 @@ export default function Collection() {
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-4 pb-8">
-        {filteredCollection.map((bg) => (
+        {filteredCollection25.map((bg) => (
           <CollectionCard
             key={bg.boardgame_id}
             check={check}
@@ -263,7 +265,7 @@ export default function Collection() {
           </div>
         )}
       </div>
-      {collection.length > nbItems + 25 && (
+      {filteredCollection.length > nbItems + 25 && (
         <div className="flex justify-center pb-4">
           <button
             type="button"
