@@ -9,6 +9,7 @@ export default function Univers() {
   const { loggedInUser, check, setCheck, univers, setUnivers } = useLudo();
   const [nbPlayerFilterUnivers, setNbPlayerFilterUnivers] = useState(0);
   const [filteredUnivers, setFilteredUnivers] = useState([]);
+  const [filteredUnivers25, setFilteredUnivers25] = useState([]);
   const [search, setSearch] = useState("");
   const [boardgameNameFilter, setBoardgameNameFilter] = useState(false);
   const [idBoardgameUnivers, setIdBoardgameUnivers] = useState(0);
@@ -155,8 +156,9 @@ export default function Univers() {
         e.title.toLowerCase().includes(words)
       );
     }
-    nextFilteredCollection = nextFilteredCollection.slice(0, nbItems + 25);
     setFilteredUnivers(nextFilteredCollection);
+    nextFilteredCollection = nextFilteredCollection.slice(0, nbItems + 25);
+    setFilteredUnivers25(nextFilteredCollection);
   }, [
     univers,
     nbPlayerFilterUnivers,
@@ -299,7 +301,7 @@ export default function Univers() {
         </div>
       </div>
       <div className="flex flex-wrap justify-center gap-4 pb-8">
-        {filteredUnivers.map((bg) => (
+        {filteredUnivers25.map((bg) => (
           <UniversCard
             key={bg.id}
             title={bg.title}
@@ -311,7 +313,7 @@ export default function Univers() {
           />
         ))}
       </div>
-      {univers.length > nbItems + 25 && (
+      {filteredUnivers.length > nbItems + 25 && (
         <div className="flex justify-center pb-4">
           <button
             type="button"
